@@ -1,0 +1,12 @@
+{
+ "wersja": 1,
+ "wariant": "lekki",
+ "pliki": [
+  {
+   "name": "Qwen3-30B-A3B-Instruct-2507-Q4_K_M.gguf",
+   "sha256": "6c997b8af17debdfb01d890214400ccbab00db6acc0ba8da5de1cc906c4774d0",
+   "bytes": 18556686752,
+   "rola": "worker+analityk"
+  }
+ ]
+}

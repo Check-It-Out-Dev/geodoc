@@ -1,0 +1,23 @@
+{
+ "type": "object",
+ "properties": {
+  "typ_rozdzialu": {"enum": ["sprawozdanie", "szkice_mapy", "wykaz",
+                             "protokoly", "dokumenty", "inny"]},
+  "streszczenie": {"type": "string"},
+  "fakty": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "fakt": {"type": "string"},
+     "strona": {"type": "integer"}
+    },
+    "required": ["fakt", "strona"],
+    "additionalProperties": false
+   }
+  },
+  "braki": {"type": "array", "items": {"type": "string"}}
+ },
+ "required": ["typ_rozdzialu", "streszczenie", "fakty", "braki"],
+ "additionalProperties": false
+}

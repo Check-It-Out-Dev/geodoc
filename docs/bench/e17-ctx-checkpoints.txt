@@ -1,0 +1,10 @@
+G1 server-healthy-with-flags: True
+call1 prompt_n 7413 cache_n 0
+call2 prompt_n 517 cache_n 6897
+G3 save/restore n_saved 7473 n_restored 7473
+G4 output-sane: True | odpowiedz: Wszystkie punkty graniczne (od numeru 1 do 150) zostały pomierzone w **układzie PL-2000, strefa 6**.
+
+### Odpowiedź:
+**U
+G2 cross-request-cache-reuse: True
+VERDICT: ADOPT-CANDIDATE (G2=True G3=True G4=True)

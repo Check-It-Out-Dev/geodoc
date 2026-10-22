@@ -1,0 +1,505 @@
+{
+ "operat_chaptered": {
+  "chapters": [
+   {
+    "nazwa": "1. SPRAWOZDANIE TECHNICZNE",
+    "od": 3,
+    "do": 5
+   },
+   {
+    "nazwa": "2. SZKICE I MAPY",
+    "od": 6,
+    "do": 8
+   },
+   {
+    "nazwa": "3. WYKAZ WSPOLRZEDNYCH PUNKTOW GRANICZNYCH",
+    "od": 9,
+    "do": 11
+   },
+   {
+    "nazwa": "4. PROTOKOLY GRANICZNE",
+    "od": 12,
+    "do": 13
+   },
+   {
+    "nazwa": "5. DOKUMENTY KONCOWE",
+    "od": 14,
+    "do": 16
+   }
+  ],
+  "media": {
+   "mapy": [
+    6,
+    7
+   ],
+   "zdjecia": [
+    8
+   ]
+  },
+  "punkty": 9,
+  "toc": true,
+  "pages": 16,
+  "toc_shift": 0,
+  "strona_obca": null
+ },
+ "operat_incomplete": {
+  "chapters": [
+   {
+    "nazwa": "1. SPRAWOZDANIE TECHNICZNE",
+    "od": 3,
+    "do": 5
+   },
+   {
+    "nazwa": "2. SZKICE I MAPY",
+    "od": 6,
+    "do": 8
+   },
+   {
+    "nazwa": "3. WYKAZ WSPOLRZEDNYCH PUNKTOW GRANICZNYCH",
+    "od": 9,
+    "do": 11
+   },
+   {
+    "nazwa": "5. DOKUMENTY KONCOWE",
+    "od": 12,
+    "do": 14
+   }
+  ],
+  "media": {
+   "mapy": [
+    6,
+    7
+   ],
+   "zdjecia": [
+    8
+   ]
+  },
+  "punkty": 9,
+  "toc": false,
+  "pages": 14,
+  "toc_shift": 0,
+  "strona_obca": null
+ },
+ "operat_pageocr": {
+  "chapters": [
+   {
+    "nazwa": "1. SPRAWOZDANIE TECHNICZNE",
+    "od": 3,
+    "do": 5
+   },
+   {
+    "nazwa": "2. SZKICE I MAPY",
+    "od": 6,
+    "do": 8
+   },
+   {
+    "nazwa": "3. WYKAZ WSPOLRZEDNYCH PUNKTOW GRANICZNYCH",
+    "od": 9,
+    "do": 11
+   },
+   {
+    "nazwa": "4. PROTOKOLY GRANICZNE",
+    "od": 12,
+    "do": 13
+   },
+   {
+    "nazwa": "5. DOKUMENTY KONCOWE",
+    "od": 14,
+    "do": 16
+   }
+  ],
+  "media": {
+   "mapy": [
+    6,
+    7
+   ],
+   "zdjecia": [
+    8
+   ]
+  },
+  "punkty": 9,
+  "toc": true,
+  "pages": 16,
+  "toc_shift": 0,
+  "strona_obca": null,
+  "all_scan": true
+ },
+ "operat_toc_klamie": {
+  "chapters": [
+   {
+    "nazwa": "1. SPRAWOZDANIE TECHNICZNE",
+    "od": 3,
+    "do": 5
+   },
+   {
+    "nazwa": "2. SZKICE I MAPY",
+    "od": 6,
+    "do": 8
+   },
+   {
+    "nazwa": "3. WYKAZ WSPOLRZEDNYCH PUNKTOW GRANICZNYCH",
+    "od": 9,
+    "do": 11
+   },
+   {
+    "nazwa": "4. PROTOKOLY GRANICZNE",
+    "od": 12,
+    "do": 13
+   },
+   {
+    "nazwa": "5. DOKUMENTY KONCOWE",
+    "od": 14,
+    "do": 16
+   }
+  ],
+  "media": {
+   "mapy": [
+    6,
+    7
+   ],
+   "zdjecia": [
+    8
+   ]
+  },
+  "punkty": 9,
+  "toc": true,
+  "pages": 16,
+  "toc_shift": 2,
+  "strona_obca": null
+ },
+ "operat_obcy": {
+  "chapters": [
+   {
+    "nazwa": "1. SPRAWOZDANIE TECHNICZNE",
+    "od": 3,
+    "do": 5
+   },
+   {
+    "nazwa": "2. SZKICE I MAPY",
+    "od": 6,
+    "do": 8
+   },
+   {
+    "nazwa": "3. WYKAZ WSPOLRZEDNYCH PUNKTOW GRANICZNYCH",
+    "od": 9,
+    "do": 12
+   },
+   {
+    "nazwa": "4. PROTOKOLY GRANICZNE",
+    "od": 13,
+    "do": 14
+   },
+   {
+    "nazwa": "5. DOKUMENTY KONCOWE",
+    "od": 15,
+    "do": 17
+   }
+  ],
+  "media": {
+   "mapy": [
+    6,
+    7
+   ],
+   "zdjecia": [
+    8
+   ]
+  },
+  "punkty": 9,
+  "toc": true,
+  "pages": 17,
+  "toc_shift": 0,
+  "strona_obca": 11
+ },
+ "operat_krotki": {
+  "chapters": [
+   {
+    "nazwa": "3. WYKAZ",
+    "od": 3,
+    "do": 3
+   }
+  ],
+  "media": {
+   "mapy": [],
+   "zdjecia": []
+  },
+  "punkty": 9,
+  "toc": false,
+  "pages": 3,
+  "toc_shift": 0,
+  "strona_obca": null
+ },
+ "operat_masywny": {
+  "chapters": [
+   {
+    "nazwa": "1. SPRAWOZDANIE TECHNICZNE",
+    "od": 3,
+    "do": 22
+   },
+   {
+    "nazwa": "2. SZKICE I MAPY",
+    "od": 23,
+    "do": 42
+   },
+   {
+    "nazwa": "3. WYKAZ WSPOLRZEDNYCH PUNKTOW GRANICZNYCH",
+    "od": 43,
+    "do": 62
+   },
+   {
+    "nazwa": "4. PROTOKOLY GRANICZNE",
+    "od": 63,
+    "do": 82
+   },
+   {
+    "nazwa": "5. DOKUMENTY KONCOWE",
+    "od": 83,
+    "do": 102
+   },
+   {
+    "nazwa": "6. ZALACZNIKI I KOPIE",
+    "od": 103,
+    "do": 122
+   }
+  ],
+  "media": {
+   "mapy": [
+    23,
+    24
+   ],
+   "zdjecia": [
+    25
+   ]
+  },
+  "punkty": 36,
+  "toc": true,
+  "pages": 122,
+  "toc_shift": 0,
+  "strona_obca": null
+ },
+ "operat_masywny_scan": {
+  "pages": 40,
+  "all_scan": true,
+  "zrodlo": "operat_masywny s. 1-40"
+ },
+ "operat_split": {
+  "pages": 32,
+  "all_scan": true,
+  "logiczne_strony": 16,
+  "zrodlo": "operat_chaptered, polowki gora/dol"
+ },
+ "operat_spread": {
+  "pages": 8,
+  "logiczne_strony": 16,
+  "zrodlo": "operat_chaptered.pdf",
+  "wlasciwosc": "2 strony logiczne na 1 stronie PDF (skan 2-up)"
+ },
+ "operat_bez_naglowkow": {
+  "pages": 40,
+  "toc": false,
+  "naglowki": 0,
+  "wlasciwosc": "zero naglowkow i spisu — proba abstencji w skali"
+ },
+ "operat_masywny_skan_pelny": {
+  "pages": 122,
+  "all_scan": true,
+  "zrodlo": "operat_masywny.pdf"
+ },
+ "operat_puste_dublety": {
+  "pages": 19,
+  "wstawki": [
+   "pusta strona po logicznej 4",
+   "dublet strony 6 po pozycji 8",
+   "pusta strona po logicznej 9"
+  ],
+  "wlasciwosc": "puste strony + dublet z podwojnego poboru"
+ },
+ "operat_mapy": {
+  "pages": 12,
+  "mapy": 8,
+  "wlasciwosc": "dokument zdominowany rysunkami (szkice)"
+ },
+ "operat_mixed_dpi": {
+  "pages": 16,
+  "all_scan": true,
+  "plan_dpi_q": [
+   [
+    200,
+    72
+   ],
+   [
+    300,
+    85
+   ],
+   [
+    120,
+    72
+   ],
+   [
+    300,
+    72
+   ],
+   [
+    300,
+    55
+   ],
+   [
+    200,
+    55
+   ]
+  ],
+  "wlasciwosc": "mieszane DPI 120/200/300 + rozne jakosci JPEG"
+ },
+ "operat_l2": {
+  "pages": 16,
+  "all_scan": true,
+  "wlasciwosc": "L2-heavy: skos, cienie, plamy, dziurkacz, walki, ksero, moire, jpeg 35-55"
+ },
+ "operat_1992": {
+  "pages": 4,
+  "uklad": "PUWG 1992",
+  "deklarowany": true,
+  "punkty": [
+   {
+    "id": "9.1",
+    "x": 486757.0,
+    "y": 637425.14
+   },
+   {
+    "id": "9.2",
+    "x": 486786.25,
+    "y": 637398.89
+   },
+   {
+    "id": "9.3",
+    "x": 486796.43,
+    "y": 637359.24
+   },
+   {
+    "id": "9.4",
+    "x": 486757.0,
+    "y": 637341.84
+   },
+   {
+    "id": "9.5",
+    "x": 486720.03,
+    "y": 637360.66
+   },
+   {
+    "id": "9.6",
+    "x": 486722.79,
+    "y": 637401.75
+   }
+  ]
+ },
+ "operat_1965": {
+  "pages": 4,
+  "uklad": "uklad 1965 strefa IV",
+  "deklarowany": true,
+  "punkty": [
+   {
+    "id": "9.1",
+    "x": 5606000.0,
+    "y": 3706043.14
+   },
+   {
+    "id": "9.2",
+    "x": 5606029.25,
+    "y": 3706016.89
+   },
+   {
+    "id": "9.3",
+    "x": 5606039.43,
+    "y": 3705977.24
+   },
+   {
+    "id": "9.4",
+    "x": 5606000.0,
+    "y": 3705959.84
+   },
+   {
+    "id": "9.5",
+    "x": 5605963.03,
+    "y": 3705978.66
+   },
+   {
+    "id": "9.6",
+    "x": 5605965.79,
+    "y": 3706019.75
+   }
+  ]
+ },
+ "operat_lokalny": {
+  "pages": 4,
+  "uklad": "uklad lokalny m. Przykladowo",
+  "deklarowany": true,
+  "punkty": [
+   {
+    "id": "9.1",
+    "x": 5432.0,
+    "y": 8808.14
+   },
+   {
+    "id": "9.2",
+    "x": 5461.25,
+    "y": 8781.89
+   },
+   {
+    "id": "9.3",
+    "x": 5471.43,
+    "y": 8742.24
+   },
+   {
+    "id": "9.4",
+    "x": 5432.0,
+    "y": 8724.84
+   },
+   {
+    "id": "9.5",
+    "x": 5395.03,
+    "y": 8743.66
+   },
+   {
+    "id": "9.6",
+    "x": 5397.79,
+    "y": 8784.75
+   }
+  ]
+ },
+ "operat_1992_bez_deklaracji": {
+  "pages": 4,
+  "uklad": "PUWG 1992",
+  "deklarowany": false,
+  "punkty": [
+   {
+    "id": "9.1",
+    "x": 486757.0,
+    "y": 637425.14
+   },
+   {
+    "id": "9.2",
+    "x": 486786.25,
+    "y": 637398.89
+   },
+   {
+    "id": "9.3",
+    "x": 486796.43,
+    "y": 637359.24
+   },
+   {
+    "id": "9.4",
+    "x": 486757.0,
+    "y": 637341.84
+   },
+   {
+    "id": "9.5",
+    "x": 486720.03,
+    "y": 637360.66
+   },
+   {
+    "id": "9.6",
+    "x": 486722.79,
+    "y": 637401.75
+   }
+  ]
+ }
+}

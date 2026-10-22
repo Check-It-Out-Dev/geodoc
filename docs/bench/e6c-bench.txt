@@ -1,0 +1,26 @@
+=== E6c bench 00:34 — fresh IQ4_NL (bartowski imatrix) vs incumbent IQ4_XS, b10155, -r 3 ===
+--- FRESH TG@t8 ---
+| model                          |       size |     params | backend    | threads |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | ------: | --------------: | -------------------: |
+| qwen3next 80B.A3B IQ4_NL - 4.5 bpw |  42.19 GiB |    79.67 B | CPU        |       8 |            tg64 |         16.43 ± 1.02 |
+
+build: 1cbfd1988 (10155)
+--- FRESH PP@t24 ---
+| model                          |       size |     params | backend    | threads |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | ------: | --------------: | -------------------: |
+| qwen3next 80B.A3B IQ4_NL - 4.5 bpw |  42.19 GiB |    79.67 B | CPU        |      24 |           pp512 |        174.16 ± 0.78 |
+
+build: 1cbfd1988 (10155)
+--- INCUMBENT TG@t8 ---
+| model                          |       size |     params | backend    | threads |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | ------: | --------------: | -------------------: |
+| qwen3next 80B.A3B IQ4_XS - 4.25 bpw |  39.71 GiB |    79.67 B | CPU        |       8 |            tg64 |         16.66 ± 0.60 |
+
+build: 1cbfd1988 (10155)
+--- INCUMBENT PP@t24 ---
+| model                          |       size |     params | backend    | threads |            test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | ------: | --------------: | -------------------: |
+| qwen3next 80B.A3B IQ4_XS - 4.25 bpw |  39.71 GiB |    79.67 B | CPU        |      24 |           pp512 |        125.68 ± 4.30 |
+
+build: 1cbfd1988 (10155)
+BENCH_DONE

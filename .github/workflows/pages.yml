@@ -1,0 +1,47 @@
+name: pages
+
+# One static page: site/index.html + the demo film + three font files.
+# Enable once in Settings -> Pages -> Source: GitHub Actions.
+on:
+  push:
+    branches: [main, master]
+    paths: ['site/**', 'docs/demo/**', '.github/workflows/pages.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: assemble the page
+        env:
+          REPO_URL: ${{ github.server_url }}/${{ github.repository }}
+        run: |
+          mkdir -p _site/fonts
+          sed "s#__REPO_URL__#${REPO_URL}#g" site/index.html > _site/index.html
+          cp docs/demo/geodoc-demo-rozmowa-final.gif _site/demo.gif
+          for f in poltawski-600-latin poltawski-600-latin-ext plex-400-latin plex-400-latin-ext plex-600-latin; do
+            cp "app/czcionki/$f.woff2" _site/fonts/
+          done
+          cp app/czcionki/OFL-*.txt _site/fonts/
+          ! grep -q '__REPO_URL__' _site/index.html
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

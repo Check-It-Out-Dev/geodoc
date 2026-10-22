@@ -1,0 +1,85 @@
+{
+ "seed": 20260729,
+ "cel_pracy": "podzial nieruchomosci",
+ "id_zgloszenia": "GK.6640.1234.2026",
+ "dzialka": "146301_1.0012.AR_3.152/4",
+ "dzialki_nowe": [
+  "146301_1.0012.AR_3.152/7",
+  "146301_1.0012.AR_3.152/8"
+ ],
+ "uklad": "PL-2000/6",
+ "wykonawca": "GEO-PRO Sp. z o.o.",
+ "nr_uprawnien": "21987",
+ "data_pomiaru": "2026-06-11",
+ "data_sporzadzenia": "2026-06-30",
+ "strona_wykazu": 3,
+ "strona_szkicu": 5,
+ "atrybuty": {
+  "ZRD": "1",
+  "BPP": "1",
+  "STB": "3",
+  "RZG": "1"
+ },
+ "punkty": [
+  {
+   "id": "152.4-01",
+   "x": 5571240.0,
+   "y": 6553238.24,
+   "status": "bez_zmian"
+  },
+  {
+   "id": "152.4-02",
+   "x": 5571274.79,
+   "y": 6553221.47,
+   "status": "bez_zmian"
+  },
+  {
+   "id": "152.4-03",
+   "x": 5571286.42,
+   "y": 6553188.19,
+   "status": "nowy"
+  },
+  {
+   "id": "152.4-04",
+   "x": 5571290.09,
+   "y": 6553151.08,
+   "status": "nowy"
+  },
+  {
+   "id": "152.4-05",
+   "x": 5571255.35,
+   "y": 6553137.82,
+   "status": "nowy"
+  },
+  {
+   "id": "152.4-06",
+   "x": 5571225.04,
+   "y": 6553138.89,
+   "status": "zmieniony"
+  },
+  {
+   "id": "152.4-07",
+   "x": 5571203.22,
+   "y": 6553158.77,
+   "status": "bez_zmian"
+  },
+  {
+   "id": "152.4-08",
+   "x": 5571195.93,
+   "y": 6553187.77,
+   "status": "bez_zmian"
+  },
+  {
+   "id": "152.4-09",
+   "x": 5571207.61,
+   "y": 6553218.61,
+   "status": "bez_zmian"
+  }
+ ],
+ "liczba_punktow": 9,
+ "pole_m2": 7051.0,
+ "rodzaj_aktu": "decyzja zatwierdzajaca podzial",
+ "strony_bez_tekstu": [
+  5
+ ]
+}

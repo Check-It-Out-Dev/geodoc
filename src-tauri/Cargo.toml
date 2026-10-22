@@ -1,0 +1,14 @@
+[package]
+name = "geodoc-tray"
+version = "0.9.5"
+edition = "2021"
+description = "geodoc tray shell — uTorrent-Web pattern: tray + default browser"
+
+[dependencies]
+tray-icon = "0.19"
+tao = "0.30"
+open = "5"
+
+[profile.release]
+lto = true
+strip = true

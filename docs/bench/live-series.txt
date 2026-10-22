@@ -1,0 +1,108 @@
+=== LIVE SERIES 10:16 — nightshift batch: 2 good + 4 adversaries ===
+batch: 20260806-101650
+postep: 0/6 ['czeka', 'czeka', 'czeka', 'czeka', 'czeka', 'czeka']
+[klasyfikator] {"typ_dokumentu": "operat techniczny", "cel_pracy": "podzial nieruchomosci", "ma_wykaz_granic": true, "strony_wykazu_kandydaci": [3], "strony_sprawozdania_kandydaci": [2], "uklad_wspolrzednych": "PL-2000/6", "uzasadnienie": "Dokument zawiera wykaz współrzędnych punktów granicznych oraz sprawozdanie 
+postep: 0/6 ['w_toku', 'czeka', 'czeka', 'czeka', 'czeka', 'czeka']
+[naglowek] {"cel_pracy": "podzial nieruchomosci", "id_zgloszenia": "GK.6640.1234.2026", "dzialki": ["146301_1.0012.AR_3.152/4"], "obreb": "0012 Jazgarzew", "gmina": null, "powiat": null, "uklad": "PL-2000/6", "wykonawca": "GEO-PRO Sp. z o.o.", "nr_uprawnien": "21987", "data_pomiaru": "2026-06-11", "data_sporza
+postep: 0/6 ['w_toku', 'czeka', 'czeka', 'czeka', 'czeka', 'czeka']
+[wykaz] 9 pkt, uwagi: []
+[gates] grounding: w_dok=True zrodla=True | referee: True (zgodne 9, niezgodne 0, pominiete 0)
+postep: 0/6 ['w_toku', 'czeka', 'czeka', 'czeka', 'czeka', 'czeka']
+[rozdzialy] 2 rozdz., G11=True G12=True
+[media] 0 obrazow
+postep: 0/6 ['w_toku', 'czeka', 'czeka', 'czeka', 'czeka', 'czeka']
+postep: 0/6 ['w_toku', 'czeka', 'czeka', 'czeka', 'czeka', 'czeka']
+[podsumowania] 2 rozdz., 13 faktow
+[done] job=job-20260806-101650 checks_PASS=True outputs=3 verdict=OK 155s
+[klasyfikator] {"typ_dokumentu": "operat techniczny", "cel_pracy": "podzial nieruchomosci", "ma_wykaz_granic": true, "strony_wykazu_kandydaci": [9], "strony_sprawozdania_kandydaci": [3], "uklad_wspolrzednych": "PL-2000/6", "uzasadnienie": "Dokument zawiera wykaz współrzędnych punktów granicznych, co wskazuje na ob
+postep: 1/6 ['done', 'w_toku', 'czeka', 'czeka', 'czeka', 'czeka']
+[naglowek] {"cel_pracy": "podzial nieruchomosci", "id_zgloszenia": "GK.6640.7777.2026", "dzialki": ["146301_1.0012.AR_3.152/4"], "obreb": null, "gmina": null, "powiat": null, "uklad": "PL-2000/6", "wykonawca": "GEO-PRO Sp. z o.o.", "nr_uprawnien": "21987", "data_pomiaru": "2026-06-11", "data_sporzadzenia": "20
+postep: 1/6 ['done', 'w_toku', 'czeka', 'czeka', 'czeka', 'czeka']
+[wykaz] 9 pkt, uwagi: []
+[gates] grounding: w_dok=True zrodla=True | referee: True (zgodne 9, niezgodne 0, pominiete 0)
+postep: 1/6 ['done', 'w_toku', 'czeka', 'czeka', 'czeka', 'czeka']
+[rozdzialy] 5 rozdz., G11=True G12=True
+postep: 1/6 ['done', 'w_toku', 'czeka', 'czeka', 'czeka', 'czeka']
+[media] 4 obrazow
+postep: 1/6 ['done', 'w_toku', 'czeka', 'czeka', 'czeka', 'czeka']
+postep: 1/6 ['done', 'w_toku', 'czeka', 'czeka', 'czeka', 'czeka']
+postep: 1/6 ['done', 'w_toku', 'czeka', 'czeka', 'czeka', 'czeka']
+[podsumowania] 5 rozdz., 33 faktow
+[done] job=job-20260806-101925 checks_PASS=True outputs=3 verdict=OK 223s
+postep: 2/6 ['done', 'done', 'w_toku', 'czeka', 'czeka', 'czeka']
+[klasyfikator] {"typ_dokumentu": "operat techniczny", "cel_pracy": "podzial nieruchomosci", "ma_wykaz_granic": false, "strony_wykazu_kandydaci": [], "strony_sprawozdania_kandydaci": [1], "uklad_wspolrzednych": "PL-1992", "uzasadnienie": "Dokument zawiera sprawozdanie techniczne na stronie 1, wykaz współrzędnych pu
+[naglowek] {"cel_pracy": "podzial nieruchomosci", "id_zgloszenia": "GK.6640.9999.2026", "dzialki": ["146301_1.0012.AR_3.152/4"], "obreb": null, "gmina": null, "powiat": null, "uklad": "PUWG 1992", "wykonawca": "GEO-PRO Sp. z o.o.", "nr_uprawnien": "21987", "data_pomiaru": "2000-05-11", "data_sporzadzenia": "20
+postep: 2/6 ['done', 'done', 'w_toku', 'czeka', 'czeka', 'czeka']
+[wykaz] 6 pkt, uwagi: []
+[gates] grounding: w_dok=True zrodla=True | referee: True (zgodne 6, niezgodne 0, pominiete 0)
+postep: 2/6 ['done', 'done', 'w_toku', 'czeka', 'czeka', 'czeka']
+[rozdzialy] 2 rozdz., G11=True G12=True
+[media] 0 obrazow
+postep: 2/6 ['done', 'done', 'w_toku', 'czeka', 'czeka', 'czeka']
+[podsumowania] 2 rozdz., 11 faktow
+[done] job=job-20260806-102308 checks_PASS=True outputs=3 verdict=OK 129s
+postep: 3/6 ['done', 'done', 'done', 'w_toku', 'czeka', 'czeka']
+[klasyfikator] {"typ_dokumentu": "operat techniczny", "cel_pracy": "podzial nieruchomosci", "ma_wykaz_granic": true, "strony_wykazu_kandydaci": [3], "strony_sprawozdania_kandydaci": [1], "uklad_wspolrzednych": "PL-2000/6", "uzasadnienie": "Dokument zawiera wykaz współrzędnych punktów granicznych, co wskazuje na ob
+[naglowek] {"cel_pracy": "podzial nieruchomosci", "id_zgloszenia": "GK.6640.7777.2026", "dzialki": ["146301_1.0012.AR_3.152/4"], "obreb": null, "gmina": null, "powiat": null, "uklad": "PL-2000/6", "wykonawca": "GEO-PRO Sp. z o.o.", "nr_uprawnien": "21987", "data_pomiaru": "2026-06-11", "data_sporzadzenia": "20
+postep: 3/6 ['done', 'done', 'done', 'w_toku', 'czeka', 'czeka']
+postep: 3/6 ['done', 'done', 'done', 'w_toku', 'czeka', 'czeka']
+[wykaz] 9 pkt, uwagi: ['str.3: brak tabeli']
+[gates] grounding: w_dok=True zrodla=True | referee: True (zgodne 9, niezgodne 0, pominiete 0)
+postep: 3/6 ['done', 'done', 'done', 'w_toku', 'czeka', 'czeka']
+[rozdzialy] 5 rozdz., G11=True G12=True
+postep: 3/6 ['done', 'done', 'done', 'w_toku', 'czeka', 'czeka']
+[media] 4 obrazow
+postep: 3/6 ['done', 'done', 'done', 'w_toku', 'czeka', 'czeka']
+postep: 3/6 ['done', 'done', 'done', 'w_toku', 'czeka', 'czeka']
+postep: 3/6 ['done', 'done', 'done', 'w_toku', 'czeka', 'czeka']
+[podsumowania] 5 rozdz., 33 faktow
+[done] job=job-20260806-102516 checks_PASS=True outputs=3 verdict=OK 243s
+postep: 4/6 ['done', 'done', 'done', 'done', 'w_toku', 'czeka']
+[klasyfikator] {"typ_dokumentu": "operat techniczny", "cel_pracy": "podzial nieruchomosci", "ma_wykaz_granic": "niepewne", "strony_wykazu_kandydaci": [], "strony_sprawozdania_kandydaci": [3], "uklad_wspolrzednych": "PL-2000/6", "uzasadnienie": "Dokument zawiera cel pracy 'podzial nieruchomosci', co wskazuje na pot
+[naglowek] {"cel_pracy": "podzial nieruchomosci", "id_zgloszenia": "GK.6640.7777.2026", "dzialki": ["146301_1.0012.AR_3.152/4"], "obreb": null, "gmina": null, "powiat": null, "uklad": "PL-2000/6", "wykonawca": "GEO-PRO Sp. z o.o.", "nr_uprawnien": "21987", "data_pomiaru": "2026-06-11", "data_sporzadzenia": "20
+postep: 4/6 ['done', 'done', 'done', 'done', 'w_toku', 'czeka']
+postep: 4/6 ['done', 'done', 'done', 'done', 'w_toku', 'czeka']
+[wykaz] 9 pkt, uwagi: ['str.1: brak tabeli', 'str.2: brak tabeli', 'str.3: brak tabeli', 'str.4: brak tabeli', 'str.5: brak tabeli', 'str.6: brak tabeli', 'str.7: brak tabeli', 'str.8: brak tabeli', 'str.10: brak tabeli', 'str.11: brak tabeli', 'str.12: brak tabeli', 'str.13: brak tabeli', 'str.14: brak tabeli']
+[gates] grounding: w_dok=True zrodla=True | referee: True (zgodne 9, niezgodne 0, pominiete 0)
+postep: 4/6 ['done', 'done', 'done', 'done', 'w_toku', 'czeka']
+postep: 4/6 ['done', 'done', 'done', 'done', 'w_toku', 'czeka']
+[rozdzialy] 4 rozdz., G11=True G12=True
+postep: 4/6 ['done', 'done', 'done', 'done', 'w_toku', 'czeka']
+[media] 4 obrazow
+postep: 4/6 ['done', 'done', 'done', 'done', 'w_toku', 'czeka']
+postep: 4/6 ['done', 'done', 'done', 'done', 'w_toku', 'czeka']
+[podsumowania] 4 rozdz., 27 faktow
+[done] job=job-20260806-102920 checks_PASS=True outputs=3 verdict=OK 238s
+postep: 5/6 ['done', 'done', 'done', 'done', 'done', 'w_toku']
+[klasyfikator] {"typ_dokumentu": "operat techniczny", "cel_pracy": "podzial nieruchomosci", "ma_wykaz_granic": true, "strony_wykazu_kandydaci": [3], "strony_sprawozdania_kandydaci": [3], "uklad_wspolrzednych": "PL-2000/6", "uzasadnienie": "Dokument zawiera wyraźny cel pracy — podział nieruchomosci — oraz wskazanie
+postep: 5/6 ['done', 'done', 'done', 'done', 'done', 'w_toku']
+[naglowek] {"cel_pracy": "podzial nieruchomosci", "id_zgloszenia": "GK.6640.7777.2026", "dzialki": ["146301_1.0012.AR_3.152/4"], "obreb": null, "gmina": null, "powiat": null, "uklad": "PL-2000/6", "wykonawca": "GEO-PRO Sp. z o.o.", "nr_uprawnien": "21987", "data_pomiaru": "2026-06-11", "data_sporzadzenia": "20
+[wykaz] 0 pkt, uwagi: ['str.3: brak tabeli']
+[gates] grounding: w_dok=False zrodla=True | referee: None (zgodne 0, niezgodne 0, pominiete 0)
+postep: 5/6 ['done', 'done', 'done', 'done', 'done', 'w_toku']
+postep: 5/6 ['done', 'done', 'done', 'done', 'done', 'w_toku']
+[rozdzialy] 4 rozdz., G11=True G12=True
+[media] 0 obrazow
+postep: 5/6 ['done', 'done', 'done', 'done', 'done', 'w_toku']
+postep: 5/6 ['done', 'done', 'done', 'done', 'done', 'w_toku']
+postep: 5/6 ['done', 'done', 'done', 'done', 'done', 'w_toku']
+[podsumowania] 4 rozdz., 27 faktow
+[done] job=job-20260806-103318 checks_PASS=False outputs=0 verdict=DO_POPRAWY 207s
+postep: 6/6 ['done', 'done', 'done', 'done', 'done', 'done']
+WYNIK: operat_sample.pdf -> done job: job-20260806-101650 PASS: True werdykt: OK flagi: 1 blad: 
+WYNIK: operat_chaptered.pdf -> done job: job-20260806-101925 PASS: True werdykt: OK flagi: 1 blad: 
+WYNIK: operat_1992.pdf -> done job: job-20260806-102308 PASS: True werdykt: OK flagi: 2 blad: 
+WYNIK: operat_toc_klamie.pdf -> done job: job-20260806-102516 PASS: True werdykt: OK flagi: 1 blad: 
+WYNIK: operat_incomplete.pdf -> done job: job-20260806-102920 PASS: True werdykt: OK flagi: 1 blad: 
+WYNIK: operat_l2.pdf -> done job: job-20260806-103318 PASS: False werdykt: DO_POPRAWY flagi: 1 blad: 
+raport: /file/kolejka-20260806-101650/raport_poranny.md
+SERIES_DONE
+=== RE-PROOF sample po naprawie flag 10:39 ===
+=== L2 RE-RUN po coord-density routing 10:41 ===
+[media] 0 obrazow
+[podsumowania] 2 rozdz., 13 faktow
+[done] job=job-20260806-103946 checks_PASS=True outputs=3 verdict=OK 249s
+[rozdzialy] 4 rozdz., G11=True G12=True
+[media] 0 obrazow
+[podsumowania] 4 rozdz., 27 faktow
+[done] job=job-20260806-104111 checks_PASS=False outputs=3 verdict=DO_POPRAWY 328s

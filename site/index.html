@@ -1,0 +1,97 @@
+<!doctype html>
+<!-- One page on purpose: the film, three sentences, the way to the code.
+     Everything else lives in the README, so the two cannot drift apart.
+     __REPO_URL__ is replaced at deploy time by .github/workflows/pages.yml
+     with the repository the page was built from; fonts and the film are
+     copied in by the same workflow (app/czcionki/, docs/demo/). -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>geodoc</title>
+<meta name="description" content="Offline document AI for Polish land-surveying reports: checked coordinate tables and a chapter map, on one office machine, no GPU, no cloud.">
+<style>
+@font-face { font-family: 'Poltawski Nowy'; font-weight: 600; font-display: swap;
+  src: url(fonts/poltawski-600-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+A720-A7FF; }
+@font-face { font-family: 'Poltawski Nowy'; font-weight: 600; font-display: swap;
+  src: url(fonts/poltawski-600-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2000-206F, U+2212; }
+@font-face { font-family: 'IBM Plex Sans'; font-weight: 400; font-display: swap;
+  src: url(fonts/plex-400-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+A720-A7FF; }
+@font-face { font-family: 'IBM Plex Sans'; font-weight: 400; font-display: swap;
+  src: url(fonts/plex-400-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2000-206F, U+2212; }
+@font-face { font-family: 'IBM Plex Sans'; font-weight: 600; font-display: swap;
+  src: url(fonts/plex-600-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2000-206F, U+2212; }
+
+:root {
+  /* the app's own tokens (docs/DESIGN-SYSTEM.md §3) */
+  --blat: #E8ECE2; --karta: #F8FAF5; --atrament: #182430;
+  --tusz: #4B3A86; --linia: #C9D0C2; --cichy: #4A5663;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --blat: #141B22; --karta: #1C252E; --atrament: #E6EBE1;
+    --tusz: #B3A6E8; --linia: #33404C; --cichy: #A9B4BF;
+  }
+}
+:root[data-theme="dark"] {
+  --blat: #141B22; --karta: #1C252E; --atrament: #E6EBE1;
+  --tusz: #B3A6E8; --linia: #33404C; --cichy: #A9B4BF;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--blat); color: var(--atrament);
+  font: 400 1.0625rem/1.6 'IBM Plex Sans', system-ui, sans-serif;
+}
+main { max-width: 64rem; margin: 0 auto; padding: 2.5rem 1rem 3.5rem; }
+h1 {
+  font: 600 clamp(2.25rem, 6vw, 3.25rem)/1.05 'Poltawski Nowy', Georgia, serif;
+  margin: 0 0 1.5rem; letter-spacing: -0.01em;
+}
+h1 span {
+  display: block; margin-top: .5rem;
+  font: 400 .8rem/1.3 'IBM Plex Sans', sans-serif;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--cichy);
+}
+figure { margin: 0 0 2rem; }
+figure img {
+  display: block; width: 100%; height: auto;
+  background: var(--karta); border: 1px solid var(--linia);
+}
+figcaption { margin-top: .5rem; font-size: .85rem; color: var(--cichy); }
+.tekst { max-width: 40rem; }
+.tekst p { margin: 0 0 1rem; }
+.tekst em { font-style: normal; font-weight: 600; }
+a.repo {
+  display: inline-block; margin-top: 1rem; padding: .75rem 1.25rem;
+  background: var(--tusz); color: var(--karta); text-decoration: none;
+  font-weight: 600; border-radius: 2px;
+}
+a.repo:hover { filter: brightness(1.1); }
+a.repo:focus-visible { outline: 3px solid var(--atrament); outline-offset: 3px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>geodoc<span>Offline document AI for land-surveying reports</span></h1>
+
+  <figure>
+    <img src="demo.gif" width="1568" height="772"
+         alt="The geodoc window: a surveying report is dropped into a conversation, each stage reports its result, an operator corrects one field in plain language, and the checked files are regenerated.">
+    <figcaption>One synthetic report, start to finish, with one correction. The interface is in Polish, the language of its users.</figcaption>
+  </figure>
+
+  <div class="tekst">
+    <p>geodoc reads Polish land-surveying reports (<em>operaty</em>) and turns them into checked coordinate tables in Excel and CSV, plus a chapter map whose summaries point back to their pages.</p>
+    <p>It runs on one office machine: a single open model on llama.cpp, CPU only, no cloud, so the documents never leave the office.</p>
+    <p>Every value is checked against the document it came from and by rules written in code, and every result carries a seal that makes any later edit visible.</p>
+    <a class="repo" href="__REPO_URL__">Code, documentation and measurements on GitHub</a>
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+ "wersja": 1,
+ "pliki": [
+  {
+   "name": "Qwen3-30B-A3B-Instruct-2507-Q4_K_M.gguf",
+   "sha256": "6c997b8af17debdfb01d890214400ccbab00db6acc0ba8da5de1cc906c4774d0",
+   "bytes": 18556686752,
+   "rola": "worker"
+  },
+  {
+   "name": "Qwen_Qwen3-Next-80B-A3B-Instruct-IQ4_NL.gguf",
+   "sha256": "84ced6bacaf365dba10fa2000ddb06db532e8d0d034d65a145696297ca55533f",
+   "bytes": 45310826976,
+   "rola": "analityk"
+  }
+ ]
+}

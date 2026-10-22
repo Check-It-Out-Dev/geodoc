@@ -1,0 +1,14 @@
+=== E22 NL-quant tuning sweep 02:25 — PP ub/threads + TG threads ===
+--- PP@t24 ub512 (current shipping) ---
+| qwen3next 80B.A3B IQ4_NL - 4.5 bpw |  42.19 GiB |    79.67 B | CPU        |      24 |           pp512 |        185.52 ± 1.48 |
+--- PP@t24 ub1024 ---
+| qwen3next 80B.A3B IQ4_NL - 4.5 bpw |  42.19 GiB |    79.67 B | CPU        |      24 |     1024 |           pp512 |        192.61 ± 0.93 |
+--- PP@t24 ub2048 ---
+| qwen3next 80B.A3B IQ4_NL - 4.5 bpw |  42.19 GiB |    79.67 B | CPU        |      24 |     2048 |           pp512 |        186.25 ± 1.25 |
+--- PP@t16 ub1024 ---
+| qwen3next 80B.A3B IQ4_NL - 4.5 bpw |  42.19 GiB |    79.67 B | CPU        |      16 |     1024 |           pp512 |        172.82 ± 0.43 |
+--- PP@t32 ub1024 ---
+| qwen3next 80B.A3B IQ4_NL - 4.5 bpw |  42.19 GiB |    79.67 B | CPU        |      32 |     1024 |           pp512 |        189.60 ± 3.81 |
+--- TG@t12 (vs known t8 17.97) ---
+| qwen3next 80B.A3B IQ4_NL - 4.5 bpw |  42.19 GiB |    79.67 B | CPU        |      12 |            tg64 |         15.59 ± 0.44 |
+E22_DONE

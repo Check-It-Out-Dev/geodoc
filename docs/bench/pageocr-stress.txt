@@ -1,0 +1,28 @@
+=== PAGEOCR SCAN e2e 03:49 — 16 scan pages: OCR+walker+rozdzialy+podsumowania ===
+[32m[INFO] 2026-08-06 03:49:36,531 [RapidOCR] base.py:23: Using engine_name: onnxruntime[0m
+[32m[INFO] 2026-08-06 03:49:36,602 [RapidOCR] download_file.py:60: File exists and is valid: <python>\Lib\site-packages\rapidocr\models\PP-OCRv6_det_small.onnx[0m
+[32m[INFO] 2026-08-06 03:49:36,602 [RapidOCR] main.py:63: Using <python>\Lib\site-packages\rapidocr\models\PP-OCRv6_det_small.onnx[0m
+[32m[INFO] 2026-08-06 03:49:36,646 [RapidOCR] base.py:23: Using engine_name: onnxruntime[0m
+[32m[INFO] 2026-08-06 03:49:36,647 [RapidOCR] download_file.py:60: File exists and is valid: <python>\Lib\site-packages\rapidocr\models\ch_ppocr_mobile_v2.0_cls_mobile.onnx[0m
+[32m[INFO] 2026-08-06 03:49:36,647 [RapidOCR] main.py:63: Using <python>\Lib\site-packages\rapidocr\models\ch_ppocr_mobile_v2.0_cls_mobile.onnx[0m
+[32m[INFO] 2026-08-06 03:49:36,682 [RapidOCR] base.py:23: Using engine_name: onnxruntime[0m
+[32m[INFO] 2026-08-06 03:49:36,694 [RapidOCR] download_file.py:60: File exists and is valid: <python>\Lib\site-packages\rapidocr\models\PP-OCRv6_rec_small.onnx[0m
+[32m[INFO] 2026-08-06 03:49:36,694 [RapidOCR] main.py:63: Using <python>\Lib\site-packages\rapidocr\models\PP-OCRv6_rec_small.onnx[0m
+Traceback (most recent call last):
+  File "<string>", line 11, in <module>
+  File "<repo>\app\rozdzialy.py", line 430, in rozdzialy_job
+    dm_path = os.path.join(jdir, "docmap.json")
+                           ^^^^
+NameError: name 'jdir' is not defined. Did you mean: 'dir'?
+pipeline(code): 10s
+walker(OCR): 3 hops, 0 confirmed, 34s
+=== PAGEOCR SCAN e2e v2 03:51 — walker widzi OCR ===
+walker(OCR): 5 hops, 4 confirmed, 40s
+rozdzialy: [(1, 3, 5, 'kod'), (2, 6, 8, 'walker'), (3, 9, 9, 'walker'), (4, 10, 10, 'kod'), (5, 11, 11, 'kod'), (6, 12, 13, 'walker'), (7, 14, 16, 'walker')]
+G11: True G12: True nieozn: [] braki: [] (0s)
+podsumowania: {'rozdzialy': 7, 'fakty': 48, 'fakty_ugruntowane': False, 'excel': '<repo>\\jobs\\pageocr-stress\\out\\rozdzialy.xlsx'} (146s)
+TOTAL(llm): 186s
+=== PAGEOCR e2e v3 03:56 — height-primary scan candidates ===
+walker: 5 hops, 4 confirmed
+rozdzialy: [(3, 5), (6, 8), (9, 9), (10, 10), (11, 11), (12, 13), (14, 16)] DRIFT want [(3, 5), (6, 8), (9, 11), (12, 13), (14, 16)]
+G11: True G12: True (42s)

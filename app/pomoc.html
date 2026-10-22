@@ -1,0 +1,244 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>geodoc — pomoc</title>
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="%23F8FAF5"/><g fill="none" stroke="%23182430" stroke-width="2"><circle cx="16" cy="16" r="8"/><path d="M16 2v6M16 24v6M2 16h6M24 16h6"/></g><circle cx="16" cy="16" r="1.8" fill="%23182430"/></svg>'>
+<link rel="stylesheet" href="/czcionki/fonty.css">
+<style>
+:root{
+  --blat:#E8ECE2; --karta:#F8FAF5; --atrament:#182430; --olowek:#49585F;
+  --tusz:#4B3A86; --karmin:#A0182B; --linia:#C6CFBE; --hover:#EFF3EA;
+  --sprawdz:#7A5000; --sprawdz-t:#F4EAD2;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--blat);color:var(--atrament);
+  font:15px/1.6 "IBM Plex Sans","Segoe UI",system-ui,sans-serif}
+.mono{font-family:"JetBrains Mono",ui-monospace,Consolas,monospace}
+::selection{background:rgba(75,58,134,.18)}
+:focus-visible{outline:2px solid var(--tusz);outline-offset:2px}
+a{color:var(--tusz);text-decoration:none}
+a:hover{text-decoration:underline}
+header{display:flex;align-items:baseline;gap:.8rem;padding:.65rem 1.4rem .55rem;
+  border-bottom:2px solid var(--atrament);background:var(--karta)}
+header h1{font:700 1.35rem/1 "Poltawski Nowy",serif;margin:0}
+header .haslo{font:600 .6875rem "IBM Plex Sans";letter-spacing:.09em;
+  text-transform:uppercase;color:var(--olowek)}
+main{max-width:1060px;margin:0 auto;padding:1.6rem 1.4rem 3rem}
+h2{font:700 1.35rem "Poltawski Nowy",serif;margin:2.2rem 0 .5rem;
+  padding-bottom:.25rem;border-bottom:3px double var(--linia)}
+h2:first-child{margin-top:.6rem}
+p,li{max-width:74ch}
+.karta{background:var(--karta);border:1px solid var(--linia);border-radius:3px;
+  padding:.9rem 1.1rem;margin:.8rem 0}
+kbd,code{font:.82em "JetBrains Mono",monospace;background:var(--karta);
+  border:1px solid var(--linia);border-radius:2px;padding:.05rem .35rem}
+.mapa{background:var(--karta);border:1px solid var(--linia);border-radius:3px;
+  padding:1rem;overflow-x:auto}
+.mapa svg{display:block;min-width:920px;width:100%}
+.wezel{cursor:pointer}
+.wezel rect{fill:var(--karta);stroke:var(--atrament);stroke-width:1;
+  transition:fill .12s}
+.wezel text{font:600 11px "IBM Plex Sans";fill:var(--atrament)}
+.wezel .rola{font:500 8.5px "IBM Plex Sans";fill:var(--olowek);
+  letter-spacing:.06em;text-transform:uppercase}
+.wezel:hover rect,.wezel.on rect{fill:#EDE9F7;stroke:var(--tusz);
+  stroke-width:2}
+.wezel.kod rect{stroke-dasharray:none;stroke-width:2}
+.strz{stroke:var(--olowek);stroke-width:1;fill:none;marker-end:url(#grot)}
+#opis{min-height:4.2rem;border-left:3px solid var(--tusz);background:var(--karta);
+  border-top:1px solid var(--linia);border-right:1px solid var(--linia);
+  border-bottom:1px solid var(--linia);border-radius:2px;
+  padding:.6rem .9rem;margin-top:.7rem;font-size:.88rem}
+#opis b{font-family:"Poltawski Nowy",serif;font-size:1.02rem}
+table{border-collapse:collapse;width:100%;font-size:.85rem;margin:.5rem 0}
+th,td{padding:.35rem .6rem;text-align:left;border-bottom:1px solid var(--linia)}
+th{color:var(--olowek);font:600 .6875rem "IBM Plex Sans";text-transform:uppercase;
+  letter-spacing:.08em;border-bottom:2px solid var(--atrament)}
+.znak{width:24px;height:24px;color:var(--atrament);align-self:center}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header>
+  <svg class="znak" viewBox="0 0 32 32"><g fill="none" stroke="currentColor" stroke-width="1.6">
+    <circle cx="16" cy="16" r="8.5"/><path d="M16 1.5v7M16 23.5v7M1.5 16h7M23.5 16h7"/>
+    <circle cx="16" cy="16" r="1.4" fill="currentColor" stroke="none"/></g></svg>
+  <h1>geodoc — pomoc</h1>
+  <span class="haslo">jak działa system</span>
+  <span style="margin-left:auto"><a href="/">← wróć do aplikacji</a></span>
+</header>
+
+<main>
+<h2>Jeden model, dwa profile, zamrożone wagi</h2>
+<p>geodoc pracuje w całości <b>offline</b> na Twoim komputerze. Sercem jest
+jeden model językowy (Qwen3-30B) pracujący w dwóch profilach: <b>roboczym</b>
+(wierne transkrypcje i ekstrakcje, deterministyczny) i <b>oceniającym</b>
+(werdykty i rozmowa z Tobą).
+Wagi modelu są <b>zamrożone</b> — program dostosowuje się wyłącznie przez
+<i>instrukcje agentów</i> (możesz je edytować) i <i>konteksty</i>
+(zapisane rozmowy wznawiane bez ponownego wczytywania). Dzięki temu każdy
+wynik można odtworzyć co do bajtu.</p>
+
+<h2>Mapa procesu <span style="font:500 .75rem 'IBM Plex Sans';color:var(--olowek)">— najedź albo kliknij etap</span></h2>
+<div class="mapa">
+<svg viewBox="0 0 940 300" role="img" aria-label="mapa procesu geodoc">
+  <defs>
+    <marker id="grot" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 z" fill="var(--olowek)"/>
+    </marker>
+  </defs>
+  <!-- rząd 1: wejście → strony → klasyfikator → ekstrakcje → kontrole -->
+  <g class="wezel" data-k="pdf"><rect x="10" y="30" width="90" height="46" rx="2"/>
+    <text x="55" y="50" text-anchor="middle">PDF operatu</text>
+    <text x="55" y="64" text-anchor="middle" class="rola">wejście</text></g>
+  <path class="strz" d="M100 53 H128"/>
+  <g class="wezel" data-k="strony"><rect x="128" y="30" width="112" height="46" rx="2"/>
+    <text x="184" y="50" text-anchor="middle">Strony + OCR</text>
+    <text x="184" y="64" text-anchor="middle" class="rola">kod + 2 silniki OCR</text></g>
+  <path class="strz" d="M240 53 H268"/>
+  <g class="wezel" data-k="klasyfikator"><rect x="268" y="30" width="104" height="46" rx="2"/>
+    <text x="320" y="50" text-anchor="middle">Klasyfikator</text>
+    <text x="320" y="64" text-anchor="middle" class="rola">profil roboczy</text></g>
+  <path class="strz" d="M372 53 H400"/>
+  <g class="wezel" data-k="ekstrakcja"><rect x="400" y="30" width="150" height="46" rx="2"/>
+    <text x="475" y="50" text-anchor="middle">Nagłówek + Wykaz</text>
+    <text x="475" y="64" text-anchor="middle" class="rola">roboczy · schematy JSON</text></g>
+  <path class="strz" d="M550 53 H578"/>
+  <g class="wezel kod" data-k="kontrole"><rect x="578" y="30" width="112" height="46" rx="2"/>
+    <text x="634" y="50" text-anchor="middle">Kontrole G1–G13</text>
+    <text x="634" y="64" text-anchor="middle" class="rola">czysty kod</text></g>
+  <path class="strz" d="M690 53 H718"/>
+  <g class="wezel" data-k="werdykt"><rect x="718" y="30" width="96" height="46" rx="2"/>
+    <text x="766" y="50" text-anchor="middle">Werdykt</text>
+    <text x="766" y="64" text-anchor="middle" class="rola">profil oceniający</text></g>
+  <path class="strz" d="M814 53 H842"/>
+  <g class="wezel kod" data-k="pieczec"><rect x="842" y="24" width="88" height="58" rx="29"/>
+    <text x="886" y="50" text-anchor="middle">Pieczęć</text>
+    <text x="886" y="64" text-anchor="middle" class="rola">pieczęć kontroli, kod</text></g>
+  <!-- rząd 2: rozdziały/opisy/podsumowania -->
+  <path class="strz" d="M184 76 V118"/>
+  <g class="wezel" data-k="walker"><rect x="128" y="118" width="112" height="46" rx="2"/>
+    <text x="184" y="138" text-anchor="middle">Walker rozdziałów</text>
+    <text x="184" y="152" text-anchor="middle" class="rola">roboczy · 6 stron</text></g>
+  <path class="strz" d="M240 141 H268"/>
+  <g class="wezel kod" data-k="spina"><rect x="268" y="118" width="104" height="46" rx="2"/>
+    <text x="320" y="138" text-anchor="middle">Spinacz granic</text>
+    <text x="320" y="152" text-anchor="middle" class="rola">kod, kotwice</text></g>
+  <path class="strz" d="M372 141 H400"/>
+  <g class="wezel" data-k="opisy"><rect x="400" y="118" width="150" height="46" rx="2"/>
+    <text x="475" y="138" text-anchor="middle">Opisy zdjęć i map</text>
+    <text x="475" y="152" text-anchor="middle" class="rola">roboczy · świeży kontekst</text></g>
+  <path class="strz" d="M550 141 H578"/>
+  <g class="wezel" data-k="podsumowania"><rect x="578" y="118" width="112" height="46" rx="2"/>
+    <text x="634" y="138" text-anchor="middle">Podsumowania</text>
+    <text x="634" y="152" text-anchor="middle" class="rola">profil roboczy</text></g>
+  <path class="strz" d="M690 141 H730 V82"/>
+  <!-- rząd 3: człowiek w pętli -->
+  <path class="strz" d="M886 82 V206 H830"/>
+  <g class="wezel" data-k="rewizja"><rect x="718" y="184" width="112" height="46" rx="2"/>
+    <text x="774" y="204" text-anchor="middle">Przegląd wyników</text>
+    <text x="774" y="218" text-anchor="middle" class="rola">operator ↔ model</text></g>
+  <path class="strz" d="M718 207 H662"/>
+  <g class="wezel" data-k="refleksja"><rect x="550" y="184" width="112" height="46" rx="2"/>
+    <text x="606" y="204" text-anchor="middle">Propozycje usprawnień</text>
+    <text x="606" y="218" text-anchor="middle" class="rola">propozycje reguł</text></g>
+  <path class="strz" d="M550 207 H494"/>
+  <g class="wezel" data-k="manuale"><rect x="382" y="184" width="112" height="46" rx="2"/>
+    <text x="438" y="204" text-anchor="middle">Instrukcje agentów</text>
+    <text x="438" y="218" text-anchor="middle" class="rola">golden + nakładka user</text></g>
+  <path class="strz" d="M438 184 V96 H400" stroke-dasharray="4 3"/>
+  <text x="30" y="212" class="rola" style="font-size:9px;fill:var(--olowek)">PĘTLA CZŁOWIEKA:</text>
+  <text x="30" y="226" class="rola" style="font-size:9px;fill:var(--olowek)">pytaj → ucz → następny operat</text>
+</svg>
+<div id="opis"><b>Kliknij etap na mapie</b> — zobaczysz, kto go wykonuje
+(kod czy model), co wchodzi i co wychodzi. Ramki z grubą kreską to czysty
+kod (deterministyczny); owal to pieczęć.</div>
+</div>
+
+<h2>Trzy tryby pracy</h2>
+<table>
+<tr><th>Tryb</th><th>Kiedy</th><th>Jak</th></tr>
+<tr><td><b>Pojedynczy na żywo</b></td><td>jeden operat, wynik od ręki</td>
+  <td>„Przetwórz operat testowy" — postęp etapów na żywo, na końcu widok
+  operatu z pieczęcią (gdy kontrole PASS)</td></tr>
+<tr><td><b>Tryb krok po kroku</b></td><td>trudny dokument, chcesz zatwierdzać
+  każdy etap</td><td>po każdym etapie zatwierdzasz wynik albo powtarzasz etap
+  z <i>dopiskiem</i>; dopisek możesz utrwalić w instrukcji jednym
+  przyciskiem</td></tr>
+<tr><td><b>Kolejka zadań (nocna zmiana)</b></td><td>pakiet operatów</td>
+  <td>dodajesz listę plików PDF, po zakończeniu czytasz
+  <span class="mono">raport_poranny.md</span>: wyniki kontroli, werdykty,
+  flagi, czasy. W trakcie kolejki analiza pojedynczego dokumentu jest
+  niedostępna. „Zatrzymaj kolejkę" dokończy bieżące zadanie i pominie
+  kolejne; raport wskaże pozycje nieprzetworzone</td></tr>
+</table>
+
+<h2>Instrukcje agentów: wersja fabryczna i nakładka użytkownika</h2>
+<div class="karta">
+<p><b>Wersja fabryczna (golden)</b> jest tylko do odczytu. Twoje zmiany
+zapisują się w <b>nakładce użytkownika</b> (lewy panel → Instrukcje
+agentów). Instrukcje są wczytywane <b>przy każdym wywołaniu</b>: zapis
+obowiązuje od następnego etapu, bez ponownego uruchamiania programu.
+Każde zadanie zapisuje skrót (hash) instrukcji, według której było
+przetwarzane — zawsze wiadomo, co dokładnie pracowało. Podczas aktywnej
+kolejki edytor ostrzega przed zapisem: część zadań zostałaby przetworzona
+według starej, a część według nowej wersji.</p></div>
+
+<h2>Pętla operatora: przegląd wyników → propozycje usprawnień</h2>
+<div class="karta">
+<p>Po zakończonym przetwarzaniu otwórz zadanie i zadawaj pytania w karcie
+<b>„Przegląd wyników"</b>: dlaczego punkt ma status SPRAWDŹ, co znajduje
+się na stronie 7, skąd ta flaga. Odpowiedzi powstają wyłącznie z
+fragmentów dokumentu dobranych przez program, liczby są cytowane
+dosłownie z numerem strony, a rozmowa zapisuje się w
+<span class="mono">analizy/rewizja.md</span> obok dokumentów wynikowych.</p>
+<p>Gdy zadanie wymagało wielu ręcznych poprawek, użyj przycisku
+<b>„Przygotuj propozycje usprawnień"</b>: program przeanalizuje ślad
+Twoich interwencji (dopiski, pytania, flagi) i zaproponuje trwałe reguły
+do instrukcji agentów — <i>pozytywne</i> („zawsze…") i <i>negatywne</i>
+(„nigdy…"). Żadna zmiana nie następuje automatycznie: propozycje
+zatwierdzasz jednym kliknięciem, trafiają do nakładki użytkownika i
+obowiązują od następnego etapu.</p></div>
+
+<h2>Skąd wiadomo, że wynikom można ufać</h2>
+<div class="karta">
+<p><b>Kontrole liczy kod, nie model</b> (zakresy stref, zgodność liczby
+punktów, pole działki, słownik atrybutów, ugruntowanie liczb w dokumencie).
+<b>Pewność</b> każdego punktu to kolor z realnych sygnałów (zgodność dwóch
+silników OCR, duplikaty pozycji, przeliczenia układów) — nigdy „procent
+pewności". <b>Pieczęć</b> na końcu utrwala hashe wszystkich artefaktów,
+manuali i modeli — dwa przebiegi tego samego operatu są identyczne co do
+bajtu, a widok operatu pokazuje okrągłą pieczęć tylko wtedy, gdy kontrole
+przeszły. Brak pieczęci to komunikat, nie ozdoba.</p></div>
+</main>
+
+<script>
+const OPISY = {
+  pdf: ["PDF operatu", "Wejście: skan albo dokument tekstowy. Kod bada każdą stronę (warstwa tekstowa czy raster) i decyduje o OCR."],
+  strony: ["Strony + OCR", "Kod wyciąga warstwę tekstową; strony rastrowe idą przez DWA silniki OCR — zgodność silników zasila później kolor pewności. Wyjście: transkrypty stron (transcript/page-NNN.md)."],
+  klasyfikator: ["Klasyfikator (profil roboczy)", "Wskazuje strony-kandydatki (nagłówek, wykaz współrzędnych). To PODPOWIEDŹ — kod i tak sprawdza gęstość współrzędnych na wszystkich stronach (unia odporności)."],
+  ekstrakcja: ["Nagłówek + Wykaz (profil roboczy)", "Ekstrakcja pól do JSON pod schematami (gramatyka wymusza format). Każdy wynik niesie hash manuala i profil — audyt w _meta."],
+  kontrole: ["Kontrole G1–G13 (czysty kod)", "Zakresy stref PL-2000, zgodność liczby punktów, pole (shoelace) vs deklaracja, słownik atrybutów, ugruntowanie liczb w dokumencie, wykrycie układu. Kod — deterministyczne, zawsze te same."],
+  werdykt: ["Werdykt (profil oceniający)", "Model ocenia skrót wyników (nie surowe strony) i wydaje werdykt OK / DO_POPRAWY / ODRZUĆ z listą problemów i raportem."],
+  pieczec: ["Pieczęć (kod)", "Hashe wszystkich artefaktów tekstowych + manuali + modeli, bez timestampów: dwa przebiegi = bajt w bajt. Okrągła pieczęć w UI pojawia się TYLKO przy kontrolach PASS."],
+  walker: ["Walker rozdziałów (profil roboczy)", "Przechodzi dokument oknami po 6 stron i zgłasza kandydatów na granice rozdziałów; na skanach ocenia wysokość linii z OCR."],
+  spina: ["Spinacz granic (kod)", "Kotwiczy granice wyłącznie w twardych dowodach (numeracja, spis treści, potwierdzone zgłoszenia walkera) i tnie dokument na rozdziały; strony bez dowodu → NIEOZNACZONE (uczciwa niepewność)."],
+  opisy: ["Opisy zdjęć i map (profil roboczy)", "Każdy obraz analizowany w świeżym kontekście; opis ugruntowany w OCR okolicy (elementy bez pokrycia odrzucone przez kod)."],
+  podsumowania: ["Podsumowania (profil roboczy)", "Streszczenia rozdziałów łączone hierarchicznie w jedno master.md + Excel z faktami (każdy fakt z numerem strony, sprawdzony kodem G13)."],
+  rewizja: ["Przegląd wyników (rozmowa z modelem)", "Twoje pytania do gotowych danych. Program dobiera materiał (strony, punkty, rozdziały); odpowiedzi cytują liczby dosłownie, z numerami stron; zapis w analizy/rewizja.md."],
+  refleksja: ["Propozycje usprawnień", "Po trudnym zadaniu program analizuje ślad Twoich interwencji i proponuje reguły do instrukcji (pozytywne/negatywne). Obowiązują dopiero po Twoim zatwierdzeniu."],
+  manuale: ["Instrukcje agentów", "Wersja fabryczna (tylko do odczytu) + nakładka użytkownika. Wczytywane przy każdym wywołaniu — zmiany obowiązują bez ponownego uruchamiania programu. Skrót instrukcji zapisany w każdym wyniku."]
+};
+const opis = document.getElementById('opis');
+document.querySelectorAll('.wezel').forEach(w => {
+  const pokaz = () => {
+    const [t, d] = OPISY[w.dataset.k] || ['', ''];
+    opis.innerHTML = `<b>${t}</b><br>${d}`;
+    document.querySelectorAll('.wezel.on').forEach(x => x.classList.remove('on'));
+    w.classList.add('on');
+  };
+  w.addEventListener('mouseenter', pokaz);
+  w.addEventListener('click', pokaz);
+  w.setAttribute('tabindex', '0');
+  w.addEventListener('focus', pokaz);
+});
+</script>

@@ -1,0 +1,8 @@
+=== E19 CCD-pinning A/B 00:43 — TG@t8 fresh IQ4_NL ===
+--- A: baseline (no mask) ---
+| model                          |       size |     params | backend    | threads |            test |                  t/s |
+| qwen3next 80B.A3B IQ4_NL - 4.5 bpw |  42.19 GiB |    79.67 B | CPU        |       8 |            tg64 |         17.97 ± 0.11 |
+--- B: CCD0-physical mask 0x5555 strict ---
+| model                          |       size |     params | backend    | threads | cpu_mask   | cpu_strict |            test |                  t/s |
+| qwen3next 80B.A3B IQ4_NL - 4.5 bpw |  42.19 GiB |    79.67 B | CPU        |       8 | 0x5555     |          1 |            tg64 |         17.87 ± 0.02 |
+E19_DONE

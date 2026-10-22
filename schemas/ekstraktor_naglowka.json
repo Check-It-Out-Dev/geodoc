@@ -1,0 +1,22 @@
+{
+ "type": "object",
+ "properties": {
+  "cel_pracy": {"type": ["string", "null"]},
+  "id_zgloszenia": {"type": ["string", "null"]},
+  "dzialki": {"type": "array", "items": {"type": "string"}},
+  "obreb": {"type": ["string", "null"]},
+  "gmina": {"type": ["string", "null"]},
+  "powiat": {"type": ["string", "null"]},
+  "uklad": {"type": ["string", "null"]},
+  "wykonawca": {"type": ["string", "null"]},
+  "nr_uprawnien": {"type": ["string", "null"]},
+  "data_pomiaru": {"type": ["string", "null"]},
+  "data_sporzadzenia": {"type": ["string", "null"]},
+  "rodzaj_aktu": {"type": ["string", "null"]},
+  "zrodla": {"type": "object", "additionalProperties": {"type": "integer"}}
+ },
+ "required": ["cel_pracy", "id_zgloszenia", "dzialki", "obreb", "gmina", "powiat",
+              "uklad", "wykonawca", "nr_uprawnien", "data_pomiaru",
+              "data_sporzadzenia", "rodzaj_aktu", "zrodla"],
+ "additionalProperties": false
+}

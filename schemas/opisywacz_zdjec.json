@@ -1,0 +1,10 @@
+{
+ "type": "object",
+ "properties": {
+  "typ": {"enum": ["mapa", "szkic", "zdjecie", "tabela", "inny"]},
+  "opis": {"type": "string"},
+  "elementy": {"type": "array", "items": {"type": "string"}}
+ },
+ "required": ["typ", "opis", "elementy"],
+ "additionalProperties": false
+}

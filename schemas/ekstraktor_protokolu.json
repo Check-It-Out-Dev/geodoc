@@ -1,0 +1,26 @@
+{
+ "type": "object",
+ "properties": {
+  "organ": {"type": ["string", "null"]},
+  "znak_sprawy": {"type": ["string", "null"]},
+  "data": {"type": ["string", "null"]},
+  "wynik": {"enum": ["pozytywny", "negatywny", null]},
+  "usterki": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "opis": {"type": "string"},
+     "przepis": {"type": ["string", "null"]},
+     "kategoria_sugerowana": {"type": ["string", "null"]},
+     "strona": {"type": ["integer", "null"]}
+    },
+    "required": ["opis", "przepis", "kategoria_sugerowana", "strona"],
+    "additionalProperties": false
+   }
+  },
+  "uwagi": {"type": ["string", "null"]}
+ },
+ "required": ["organ", "znak_sprawy", "data", "wynik", "usterki", "uwagi"],
+ "additionalProperties": false
+}

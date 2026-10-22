@@ -1,0 +1,9 @@
+{
+ "type": "object",
+ "properties": {
+  "podsumowanie_md": {"type": "string"},
+  "watki_otwarte": {"type": "array", "items": {"type": "string"}}
+ },
+ "required": ["podsumowanie_md", "watki_otwarte"],
+ "additionalProperties": false
+}

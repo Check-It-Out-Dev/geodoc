@@ -1,0 +1,10 @@
+=== ARSENAL SWEEP 09:35 — code layer + OCR vs new adversaries ===
+operat_mapy -> {"rozdzialy": [[2, 9], [10, 10], [11, 12]], "nieozn": [], "G11": true, "G12": true, "pat": {"puste": [], "dublety": []}, "wall": 1, "media": 8}
+operat_spread -> {"rozdzialy": [[2, 2], [3, 4], [5, 6], [7, 8]], "nieozn": [], "G11": true, "G12": true, "pat": {"puste": [], "dublety": []}, "wall": 6}
+operat_mixed_dpi -> {"rozdzialy": [[3, 8], [9, 11], [12, 13], [14, 16]], "nieozn": [], "G11": true, "G12": true, "pat": {"puste": [], "dublety": []}, "wall": 10}
+operat_l2 -> {"rozdzialy": [[3, 5], [6, 8], [9, 11], [12, 13], [14, 16]], "nieozn": [], "G11": true, "G12": true, "pat": {"puste": [], "dublety": []}, "wall": 16, "digit_hits_of_9": 7}
+SWEEP_DONE
+=== WALKER RECOVERY on mixed_dpi 09:37 ===
+claims: [(6, 'wysoka'), (9, 'wysoka'), (12, 'wysoka'), (14, 'wysoka'), (None, 'niska')]
+rozdzialy: [(3, 5, 'kod'), (6, 8, 'walker'), (9, 11, 'walker'), (12, 13, 'walker'), (14, 16, 'walker')]
+G11: True G12: True

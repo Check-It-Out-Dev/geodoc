@@ -1,0 +1,17 @@
+=== MASYWNY STRESS e2e 03:39 — 122 pp: pipeline+walker+rozdzialy+podsumowania ===
+[32m[INFO] 2026-08-06 03:39:39,485 [RapidOCR] base.py:23: Using engine_name: onnxruntime[0m
+[32m[INFO] 2026-08-06 03:39:39,557 [RapidOCR] download_file.py:60: File exists and is valid: <python>\Lib\site-packages\rapidocr\models\PP-OCRv6_det_small.onnx[0m
+[32m[INFO] 2026-08-06 03:39:39,557 [RapidOCR] main.py:63: Using <python>\Lib\site-packages\rapidocr\models\PP-OCRv6_det_small.onnx[0m
+[32m[INFO] 2026-08-06 03:39:39,597 [RapidOCR] base.py:23: Using engine_name: onnxruntime[0m
+[32m[INFO] 2026-08-06 03:39:39,598 [RapidOCR] download_file.py:60: File exists and is valid: <python>\Lib\site-packages\rapidocr\models\ch_ppocr_mobile_v2.0_cls_mobile.onnx[0m
+[32m[INFO] 2026-08-06 03:39:39,598 [RapidOCR] main.py:63: Using <python>\Lib\site-packages\rapidocr\models\ch_ppocr_mobile_v2.0_cls_mobile.onnx[0m
+[32m[INFO] 2026-08-06 03:39:39,633 [RapidOCR] base.py:23: Using engine_name: onnxruntime[0m
+[32m[INFO] 2026-08-06 03:39:39,644 [RapidOCR] download_file.py:60: File exists and is valid: <python>\Lib\site-packages\rapidocr\models\PP-OCRv6_rec_small.onnx[0m
+[32m[INFO] 2026-08-06 03:39:39,644 [RapidOCR] main.py:63: Using <python>\Lib\site-packages\rapidocr\models\PP-OCRv6_rec_small.onnx[0m
+pipeline(code): 9s
+walker: 24 hops, 6 confirmed, 139s
+rozdzialy: [(1, 3, 22, 'walker'), (2, 23, 42, 'walker'), (3, 43, 62, 'walker'), (4, 63, 82, 'walker'), (5, 83, 102, 'walker'), (6, 103, 122, 'walker')]
+G11: True G12: True spis_zgodny: True (0s)
+podsumowania: {'rozdzialy': 6, 'fakty': 46, 'fakty_ugruntowane': False, 'excel': '<repo>\\jobs\\masywny-stress\\out\\rozdzialy.xlsx'} (190s)
+TOTAL: 338s
+krotki walker (no anchors): [(3, 'wysoka')]

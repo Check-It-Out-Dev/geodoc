@@ -1,0 +1,1375 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>geodoc</title>
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="%23F8FAF5"/><g fill="none" stroke="%23182430" stroke-width="2"><circle cx="16" cy="16" r="8"/><path d="M16 2v6M16 24v6M2 16h6M24 16h6"/></g><circle cx="16" cy="16" r="1.8" fill="%23182430"/></svg>'>
+<link rel="stylesheet" href="/czcionki/fonty.css">
+<style>
+/* DESIGN-SYSTEM.md 06.08 — „archaizm w nowoczesnym projekcie":
+   papier polowego dziennika obliczeń + fioletowy tusz pieczątkowy;
+   pieczęć TYLKO na werdyktach (prawo rzadkości), afordancje płaskie. */
+:root{
+  --blat:#E8ECE2; --karta:#F8FAF5; --atrament:#182430; --olowek:#49585F;
+  --tusz:#4B3A86; --karmin:#A0182B; --linia:#C6CFBE;
+  --pewne:#1E6B40; --pewne-t:#E3EEE3; --pewne-b:#BFD5C2;
+  --sprawdz:#7A5000; --sprawdz-t:#F4EAD2; --sprawdz-b:#DEC791;
+  --kryt:#A0182B; --kryt-t:#F7E4E0; --kryt-b:#E5BCB5;
+  --hover:#EFF3EA; --szuflada:#DFE4D8; --tusz-t:#EDE9F7;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--blat);color:var(--atrament);
+  font:15px/1.55 "IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  display:flex;flex-direction:column;height:100vh}
+code,.mono{font-family:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  font-variant-numeric:tabular-nums}
+::selection{background:rgba(75,58,134,.18)}
+:focus-visible{outline:2px solid var(--tusz);outline-offset:2px}
+a{color:var(--tusz);text-decoration:none}
+a:hover{text-decoration:underline}
+.dim{color:var(--olowek)}
+
+header{display:flex;align-items:baseline;gap:.8rem;padding:.65rem 1.2rem .55rem;
+  border-bottom:2px solid var(--atrament);background:var(--karta)}
+header .znak{width:26px;height:26px;color:var(--atrament);align-self:center;flex:none}
+header h1{font:700 1.35rem/1 "Poltawski Nowy",serif;margin:0;letter-spacing:-.01em}
+header .haslo{font:600 .6875rem "IBM Plex Sans";letter-spacing:.09em;
+  text-transform:uppercase;color:var(--olowek)}
+header .prawa{margin-left:auto;display:flex;align-items:baseline;gap:1.1rem;
+  font-size:.8rem;color:var(--olowek)}
+#licencja:empty{display:none}
+#licencja{border-right:1px solid var(--linia);padding-right:1.1rem}
+
+main{flex:1;display:grid;grid-template-columns:264px 1fr;overflow:hidden}
+main.z-panelem{grid-template-columns:264px 1fr 304px}
+@media (max-width:1100px){main.z-panelem{grid-template-columns:264px 1fr}
+  #panel{display:none}}
+@media (max-width:860px){main{grid-template-columns:1fr}aside{border-right:none;
+  border-bottom:1px solid var(--linia)}}
+#panel{border-left:1px solid var(--linia);background:var(--karta);
+  overflow-y:auto;padding:1rem 1.1rem}
+#panel h2{font:600 .6875rem "IBM Plex Sans";letter-spacing:.14em;
+  text-transform:uppercase;color:var(--olowek);margin:1rem 0 .5rem;
+  padding-bottom:.3rem;border-bottom:3px double var(--linia)}
+#panel h2:first-child{margin-top:0}
+/* stepper etapów: ✓ zrobione · ● trwa (puls) · ○ czeka */
+.stopnie{list-style:none;margin:0;padding:0;font-size:.82rem}
+.stopnie li{display:flex;gap:.55rem;align-items:baseline;padding:.28rem 0;
+  color:var(--olowek)}
+.stopnie li .zn{width:1rem;text-align:center;font-weight:700}
+.stopnie li.done{color:var(--atrament)}
+.stopnie li.done .zn{color:var(--pewne)}
+.stopnie li.active{color:var(--atrament);font-weight:600}
+.stopnie li.active .zn{color:var(--tusz);animation:puls 1.2s ease-in-out infinite}
+@keyframes puls{50%{opacity:.35}}
+/* rozmowy w szufladzie */
+.rozmowa{padding:.42rem .6rem;border-left:3px solid transparent;
+  border-radius:0 2px 2px 0;cursor:pointer;color:var(--olowek)}
+.rozmowa:hover{background:var(--karta)}
+.rozmowa.sel{background:var(--karta);border-left-color:var(--tusz);
+  color:var(--atrament)}
+.rozmowa .naz{font-size:.85rem;color:var(--atrament);overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap;display:flex;gap:.4rem;
+  align-items:baseline}
+.rozmowa .naz .glify{margin-left:auto;flex:none;font-size:.72rem}
+.rozmowa .pod{font-size:.68rem;color:var(--olowek)}
+.mk-zatwierdzona{color:var(--pewne);font-weight:700}
+.mk-odrzucona{color:var(--kryt);font-weight:700}
+.msz-pass{color:var(--pewne)}.msz-fail{color:var(--kryt)}
+.msz-toku{color:var(--sprawdz)}
+/* czat rozmowy */
+#czat{display:flex;flex-direction:column;height:100%;overflow:hidden}
+#czat-gora{display:flex;align-items:center;gap:.8rem;padding:.6rem 1.2rem;
+  border-bottom:1px solid var(--linia);background:var(--karta)}
+#czat-gora .naz{font:700 1.05rem "Poltawski Nowy",serif}
+.marker-prz{display:flex;gap:0;margin-left:auto;border:1px solid var(--linia);
+  border-radius:2px;overflow:hidden}
+.marker-prz button{border:none;border-radius:0;padding:.3rem .6rem;
+  font-size:.72rem;background:var(--karta)}
+.marker-prz button.on.zat{background:var(--pewne-t);color:var(--pewne)}
+.marker-prz button.on.odr{background:var(--kryt-t);color:var(--kryt)}
+#czat-log{flex:1;overflow-y:auto;padding:1rem 1.4rem}
+#czat-dol{border-top:1px solid var(--linia);background:var(--karta);
+  padding:.7rem 1.2rem}
+#czat-dol .rzad{display:flex;gap:.6rem}
+#czat-hint{font-size:.72rem;color:var(--olowek);margin-top:.35rem;
+  min-height:1em}
+button[aria-disabled="true"]{opacity:.45;cursor:not-allowed;
+  pointer-events:none}
+/* karta etapu z akcjami w wątku */
+.etap-karta{border:1px solid var(--linia);border-left:3px solid var(--tusz);
+  border-radius:2px;background:var(--karta);padding:.55rem .8rem;
+  margin:.6rem 0;max-width:52rem}
+.etap-karta .tyt{font:600 .72rem "IBM Plex Sans";letter-spacing:.08em;
+  text-transform:uppercase;color:var(--tusz)}
+/* sugerowane odpowiedzi nad polem wiadomości (wzorzec czatu) */
+#sugestie{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.45rem}
+#sugestie:empty{display:none}
+.sugestia{border:1px solid var(--tusz);color:var(--tusz);background:var(--karta);
+  border-radius:999px;padding:.32rem .85rem;font-size:.78rem}
+.sugestia:hover{background:var(--tusz-t)}
+/* status pracy agenta */
+.agent-linia{display:flex;gap:.5rem;align-items:baseline;color:var(--olowek);
+  font-size:.82rem;margin:.6rem 0}
+.agent-linia .kropka{color:var(--tusz);animation:puls 1.2s ease-in-out infinite}
+/* załącznik pliku w czacie */
+.zalacznik{display:inline-flex;gap:.55rem;align-items:center;
+  border:1px solid var(--linia);border-radius:2px;background:var(--blat);
+  padding:.4rem .7rem;margin:.25rem .4rem .25rem 0;color:var(--atrament);
+  text-decoration:none}
+.zalacznik:hover{background:var(--hover);text-decoration:none}
+.zalacznik .ik{font:700 .62rem "IBM Plex Sans";color:var(--karta);
+  background:var(--tusz);border-radius:2px;padding:.15rem .3rem}
+.zalacznik .ik.csv{background:var(--pewne)}
+.zalacznik .ik.pdf{background:var(--kryt)}
+.zalacznik .met{font-size:.68rem;color:var(--olowek)}
+/* strefa upuszczania */
+#drop{position:fixed;inset:0;background:rgba(75,58,134,.12);display:none;
+  align-items:center;justify-content:center;z-index:60;
+  border:3px dashed var(--tusz)}
+#drop .nap{background:var(--karta);border:1px solid var(--linia);
+  border-radius:3px;padding:1rem 2rem;font:700 1.1rem "Poltawski Nowy",serif}
+aside{border-right:1px solid var(--linia);background:var(--szuflada);
+  padding:1rem;overflow-y:auto}
+aside h2{font:600 .6875rem "IBM Plex Sans";letter-spacing:.14em;
+  text-transform:uppercase;color:var(--olowek);margin:1.2rem 0 .55rem;
+  padding-bottom:.3rem;border-bottom:3px double var(--linia)}
+.job{padding:.4rem .6rem;border-left:3px solid transparent;border-radius:0 2px 2px 0;
+  cursor:pointer;color:var(--olowek);font-size:.85rem;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.job:hover{background:var(--karta);color:var(--atrament)}
+.job.sel{background:var(--karta);color:var(--atrament);
+  border-left-color:var(--tusz);font-weight:600}
+
+button{font:600 .8rem "IBM Plex Sans";border-radius:2px;cursor:pointer;
+  border:1px solid var(--atrament);background:var(--karta);color:var(--atrament);
+  padding:.5rem .85rem}
+button.primary{background:var(--tusz);border-color:var(--tusz);color:var(--karta)}
+button.cichy{border-color:var(--linia);color:var(--olowek)}
+button:hover{background:var(--hover)}
+button.primary:hover{background:#3E2F73;filter:none}
+button:active{transform:translateY(1px)}
+
+#view{overflow-y:auto;padding:2rem 1.6rem 1.2rem}
+.card{position:relative;background:var(--karta);border:1px solid var(--linia);
+  border-radius:0 3px 3px 3px;padding:.85rem 1.1rem;margin:1.7rem 0 1rem}
+.card:first-child{margin-top:.4rem}
+/* tytuł karty = zakładka teczki nachodząca na górną krawędź */
+.card h3{position:absolute;top:-1.62rem;left:-1px;margin:0;
+  background:var(--karta);border:1px solid var(--linia);border-bottom:none;
+  border-radius:3px 3px 0 0;padding:.28rem .85rem .18rem;
+  font:700 1.0625rem/1.2 "Poltawski Nowy",serif;color:var(--atrament);
+  max-width:96%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card h3::after{content:"";position:absolute;left:0;right:0;bottom:-1px;
+  height:1px;background:var(--karta)}
+.card h3 .dim,.card h3 a{font:500 .72rem "IBM Plex Sans"}
+.card:first-child h3{top:-1.22rem}
+
+table{border-collapse:collapse;width:100%;font-size:.82rem}
+th,td{padding:.32rem .55rem;text-align:left;border-bottom:1px solid var(--linia)}
+th{color:var(--olowek);font:600 .6875rem "IBM Plex Sans";
+  text-transform:uppercase;letter-spacing:.08em;border-bottom:2px solid var(--atrament)}
+tbody tr:hover td,table tr:hover td{background:var(--hover)}
+td.mono,th.mono{font-family:"JetBrains Mono",ui-monospace,Consolas,monospace}
+/* podwójna linia po kolumnie ID — konwencja księgi wykazu */
+table.wykaz td:first-child,table.wykaz th:first-child{
+  border-right:3px double var(--linia)}
+.zasieg{font:500 .7rem "JetBrains Mono",monospace;color:var(--olowek);
+  letter-spacing:.02em;margin:.1rem 0 .5rem}
+
+/* ODBITKA — klasa werdyktów: chwiany ring przez filtr na pseudo-elemencie,
+   tekst NIGDY nie filtrowany; afordancje pozostają płaskie */
+.pill,.odb{position:relative;display:inline-block;padding:.08rem .55rem;
+  border-radius:2px;font:700 .72rem "IBM Plex Sans";letter-spacing:.03em}
+.pill::before,.odb::before{content:"";position:absolute;inset:0;
+  border:1.5px solid currentColor;border-radius:2px;opacity:.8;
+  filter:url(#odbitka);pointer-events:none}
+.pill.ok{background:var(--pewne-t);color:var(--pewne)}
+.pill.err{background:var(--kryt-t);color:var(--kryt)}
+.pill:not(.ok):not(.err){background:var(--blat);color:var(--olowek)}
+.odb.fl-nowy{background:var(--tusz-t);color:var(--tusz)}
+.odb.fl-zmieniony{background:var(--sprawdz-t);color:var(--sprawdz)}
+.odb.fl-bez_zmian{background:var(--blat);color:var(--olowek)}
+.odb.male{padding:0 .35rem;font-size:.66rem;cursor:pointer}
+
+.kv{display:grid;grid-template-columns:auto 1fr;gap:.18rem 1.1rem;font-size:.85rem}
+.kv b{font:600 .6875rem/1.9 "IBM Plex Sans";letter-spacing:.06em;
+  text-transform:uppercase;color:var(--olowek)}
+
+/* log = taśma papierowa z perforacją */
+.log{font-size:.76rem;color:var(--olowek);max-height:180px;overflow-y:auto;
+  background:var(--karta);border:1px solid var(--linia);border-radius:2px;
+  padding:.45rem .7rem .45rem 1.5rem;
+  background-image:radial-gradient(circle 2px at 9px 9px,var(--blat) 2px,transparent 2.7px),
+    linear-gradient(var(--linia),var(--linia));
+  background-size:100% 18px,1px 100%;background-position:0 0,18px 0;
+  background-repeat:repeat-y,no-repeat}
+.log .mono{color:var(--olowek)}
+.log .etap{color:var(--atrament);font-weight:600}
+aside .log{background-image:none;border:none;padding:.2rem 0}
+
+.pasek{height:12px;border:1px solid var(--atrament);border-radius:2px;
+  background:var(--karta);position:relative;overflow:hidden;margin:.4rem 0}
+.pasek .wyp{position:absolute;inset:0;right:auto;background:var(--tusz);
+  transition:width .5s ease}
+.empty{color:var(--olowek);padding:3rem 2rem;text-align:center}
+.empty .duch{width:120px;height:120px;color:var(--atrament);opacity:.1;
+  margin:0 auto .6rem;display:block}
+
+textarea,input[type=text],#chat-input{width:100%;background:var(--karta);
+  color:var(--atrament);border:1px solid var(--linia);border-radius:2px;
+  padding:.6rem .8rem;font:.82rem/1.5 "JetBrains Mono",monospace}
+textarea{min-height:420px;resize:vertical}
+textarea:focus,#chat-input:focus{border-color:var(--tusz);outline:none}
+
+.badge{display:inline-block;padding:.05rem .45rem;border-radius:2px;
+  font:700 .66rem "IBM Plex Sans";margin-left:.4rem;letter-spacing:.03em}
+.badge.golden{background:var(--sprawdz-t);color:var(--sprawdz)}
+.badge.user{background:var(--tusz-t);color:var(--tusz)}
+.warn{background:var(--sprawdz-t);border:1px solid var(--sprawdz-b);
+  border-left:3px solid var(--sprawdz);border-radius:2px;
+  padding:.4rem .7rem;margin:.3rem 0;font-size:.82rem;color:var(--sprawdz)}
+.chip{display:inline-block;padding:.06rem .5rem;border-radius:2px;
+  font-size:.7rem;background:var(--blat);color:var(--olowek);
+  border:1px solid var(--linia);margin:.08rem 0}
+.chip.uwaga{background:var(--sprawdz-t);color:var(--sprawdz);
+  border-color:var(--sprawdz-b)}
+
+details{margin-top:.8rem}
+details summary{cursor:pointer;color:var(--olowek);font-size:.8rem}
+details pre{background:var(--blat);border:1px solid var(--linia);
+  border-radius:2px;padding:.7rem;font-size:.78rem;overflow-x:auto;
+  white-space:pre-wrap}
+td.ev{cursor:zoom-in}
+td.ev:hover{text-decoration:underline dotted}
+.w1s{color:var(--sprawdz)}
+
+/* czat = bloki korespondencji z rubryką mówcy, nie dymki */
+.msg{border-left:2px solid var(--olowek);padding:.1rem .85rem .2rem;
+  margin:.7rem 0;white-space:pre-wrap}
+.msg .kto{display:block;font:600 .65rem "IBM Plex Sans";letter-spacing:.09em;
+  color:var(--olowek);text-transform:uppercase;margin-bottom:.1rem}
+.msg.op{border-left-color:var(--tusz)}
+.msg.op .kto{color:var(--tusz)}
+
+/* pieczęć okrągła — TYLKO werdykt pozytywny; nieobecność jest komunikatem */
+.seal{position:absolute;top:.4rem;right:1rem;width:76px;height:76px;
+  color:var(--tusz);transform:rotate(-3deg);opacity:.88;
+  animation:stamp .29s cubic-bezier(.2,.9,.25,1) both}
+.seal svg{width:100%;height:100%;display:block}
+.seal .seal-hash{position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-58%);font:600 .58rem "JetBrains Mono",monospace;
+  letter-spacing:.04em}
+@keyframes stamp{0%{transform:scale(1.18) rotate(-3deg);opacity:0}
+  55%{opacity:.88}100%{transform:scale(1) rotate(-3deg);opacity:.88}}
+.plakieta{position:absolute;top:.9rem;right:1rem;background:var(--kryt-t);
+  color:var(--kryt);border:1px solid var(--kryt-b);border-left:3px solid var(--kryt);
+  padding:.3rem .7rem;font:700 .72rem "IBM Plex Sans";letter-spacing:.05em;
+  border-radius:2px}
+
+#lightbox,#rodowod{position:fixed;inset:0;background:rgba(24,36,48,.55);
+  display:none;align-items:center;justify-content:center;z-index:50}
+#lightbox .frame,#rodowod .frame{position:relative;max-width:88vw;max-height:92vh;
+  overflow:auto;border:1px solid var(--linia);border-radius:3px;
+  background:var(--karta);box-shadow:0 8px 28px rgba(24,36,48,.25)}
+.fl-nowy{color:var(--tusz)}.fl-zmieniony{color:var(--sprawdz)}
+.fl-bez_zmian{color:var(--olowek)}
+#lightbox img{display:block;max-width:86vw}
+#lightbox .hl{position:absolute;border:2px solid var(--tusz);border-radius:2px;
+  box-shadow:0 0 0 4px rgba(75,58,134,.14);
+  animation:hl-in .24s ease-out both}
+@keyframes hl-in{from{opacity:0;transform:scale(1.06)}to{opacity:1}}
+#lightbox .cap{position:sticky;bottom:0;background:var(--karta);
+  border-top:1px solid var(--linia);padding:.5rem .9rem;font-size:.8rem;
+  color:var(--olowek);display:flex;justify-content:space-between;gap:1rem}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="odbitka" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2"
+        seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.7"/>
+    </filter>
+    <!-- znacznik punktu osnowy: znak produktu (czysty, bez filtra) -->
+    <symbol id="znacznik" viewBox="0 0 32 32">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <circle cx="16" cy="16" r="8.5"/>
+        <path d="M16 1.5v7M16 23.5v7M1.5 16h7M23.5 16h7"/>
+        <circle cx="16" cy="16" r="1.4" fill="currentColor" stroke="none"/>
+      </g>
+    </symbol>
+    <!-- pieczęć okrągła: dwuring chwiany filtrem, tekst po okręgu -->
+    <symbol id="pieczec" viewBox="0 0 96 96">
+      <g fill="none" stroke="currentColor" filter="url(#odbitka)">
+        <circle cx="48" cy="48" r="45" stroke-width="2.4"/>
+        <circle cx="48" cy="48" r="32.5" stroke-width="1"/>
+      </g>
+      <path id="pcirc" fill="none"
+        d="M48,48 m-38.5,0 a38.5,38.5 0 1,1 77,0 a38.5,38.5 0 1,1 -77,0"/>
+      <text font-family="IBM Plex Sans" font-size="7.4" letter-spacing="2.1"
+        font-weight="600" fill="currentColor">
+        <textPath href="#pcirc" startOffset="2">SKONTROLOWANO · GEODOC ·</textPath>
+      </text>
+      <text x="48" y="62" text-anchor="middle" font-family="IBM Plex Sans"
+        font-size="5.6" letter-spacing="1.6" font-weight="600"
+        fill="currentColor">ODTWARZALNY</text>
+    </symbol>
+  </defs>
+</svg>
+
+<header>
+  <svg class="znak"><use href="#znacznik"/></svg>
+  <h1>geodoc</h1>
+  <span class="haslo">kontrola operatów technicznych</span>
+  <span class="prawa">
+    <span id="kolejka-badge" class="pill" style="display:none;cursor:pointer;
+      background:var(--sprawdz-t);color:var(--sprawdz)"
+      title="Kliknij, aby zobaczyć postęp kolejki."
+      onclick="showNightshift()">● Trwa przetwarzanie kolejki</span>
+    <a href="/pomoc" target="_blank" title="jak działa system — mapa procesu">Pomoc</a>
+    <span id="licencja"></span>
+    <span class="dim" id="status">gotowy</span></span>
+</header>
+
+<div id="lightbox" onclick="this.style.display='none'">
+  <div class="frame" onclick="event.stopPropagation()">
+    <div style="position:relative" id="lb-stage"><img id="lb-img"></div>
+    <div class="cap"><span id="lb-cap"></span>
+      <span><a id="lb-pdf" target="_blank">otwórz PDF #strona</a> ·
+        <a href="#" onclick="document.getElementById('lightbox').style.display='none';return false">zamknij</a></span></div>
+  </div>
+</div>
+
+<div id="rodowod" onclick="this.style.display='none'" data-testid="rodowod-panel">
+  <div class="frame" onclick="event.stopPropagation()">
+    <div style="padding:1.2rem 1.4rem" id="rd-body"></div>
+  </div>
+</div>
+
+<div id="drop"><div class="nap">Upuść plik PDF — zacznie się rozmowa o dokumencie</div></div>
+
+<main id="glowna">
+  <aside>
+    <button class="primary" style="width:100%" onclick="nowaRozmowa()"
+      data-testid="run-sample"
+      title="Wrzuć PDF do rozmowy — etapy zobaczysz jako wiadomości.">Nowa rozmowa (dokument)</button>
+    <button class="cichy" style="width:100%;margin-top:.45rem" onclick="showNightshift()"
+      data-testid="nightshift"
+      title="Dokumenty przetwarzane po kolei, bez Twojego udziału.">Kolejka zadań</button>
+    <h2>Rozmowy</h2>
+    <div id="rozmowy"></div>
+    <h2>Instrukcje agentów</h2>
+    <div id="prompts"></div>
+    <h2>Asystent ogólny</h2>
+    <button style="width:100%" data-testid="new-chat" onclick="openChat(null)">Nowa rozmowa ogólna</button>
+    <div id="contexts" class="log" style="margin-top:.5rem"></div>
+  </aside>
+  <div id="view"><div class="empty">
+    <svg class="duch"><use href="#znacznik"/></svg>
+    Zacznij rozmowę o dokumencie — wrzuć PDF albo wybierz rozmowę z listy.<br>
+    <span class="dim" style="font-size:.8rem">Możesz też upuścić plik PDF w dowolnym miejscu okna.</span></div></div>
+  <div id="panel" style="display:none"></div>
+</main>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+let sel = null;
+
+async function api(path, body) {
+  const r = await fetch(path, body ? {method:'POST', body: JSON.stringify(body)} : undefined);
+  return r.json();
+}
+
+async function refresh() {
+  const prompts = await api('/api/prompts');
+  $('prompts').innerHTML = prompts.map(p =>
+    `<div class="job" data-testid="prompt-${esc(p.name)}" onclick="openPrompt('${esc(p.name)}')">
+       ${esc(p.name)}<span class="badge ${esc(p.source)}">${esc(p.source)}</span></div>`).join('');
+  const ctxs = await api('/api/contexts');
+  $('contexts').innerHTML = ctxs.length
+    ? ctxs.map(c => `<div class="job" onclick="openChat('${esc(c.id)}')">${esc(c.id)}
+        <span class="mono">${esc(c.role)}</span> · ${c.turns} tur${c.state
+          ? ` <span class="badge user" title="Rozmowa zapisana — wznowienie bez ponownego wczytywania.">❄</span>` : ''}</div>`).join('')
+    : '<div>brak</div>';
+}
+
+async function firma() {
+  try {
+    const f = await api('/api/firma');
+    if (f.nazwa) $('licencja').textContent = 'Pracownia: ' + f.nazwa;
+  } catch {}
+}
+
+let aktywnaKolejka = null;
+async function pulsKolejki() {
+  try {
+    const a = await api('/api/queue/active');
+    aktywnaKolejka = a.bid || null;
+    const b = $('kolejka-badge');
+    b.style.display = aktywnaKolejka ? '' : 'none';
+    if (aktywnaKolejka && a.wszystkie)
+      b.textContent = `● Kolejka zadań: ${a.zrobione} z ${a.wszystkie}`;
+  } catch {}
+}
+setInterval(pulsKolejki, 6000);
+
+function etaTekst(s) {
+  if (s == null) return '';
+  const m = Math.round(s / 60);
+  return m < 1 ? 'poniżej minuty' : `około ${m} min`;
+}
+
+let chatCtx = null;
+
+let crewJob = null;
+let nsBatch = null, nsTimer = null;
+
+function bezPanelu() {
+  rozmowaId = null;
+  document.getElementById('glowna').classList.remove('z-panelem');
+  const p = $('panel'); if (p) p.style.display = 'none';
+}
+
+async function showNightshift() {
+  sel = null;
+  bezPanelu();
+  $('view').innerHTML = `
+  <div class="card" data-testid="ns">
+    <h3>Kolejka zadań <span class="dim">(nocna zmiana)</span></h3>
+    <div class="dim" style="font-size:.78rem;margin-bottom:.5rem">
+      Dodaj listę plików PDF — program przetworzy je po kolei, bez Twojego
+      udziału. Raport z wynikami będzie gotowy po zakończeniu kolejki.
+      W trakcie kolejki analiza pojedynczego dokumentu i tryb krok po kroku
+      są niedostępne.</div>
+    <textarea id="ns-paths" data-testid="ns-paths" style="min-height:110px"
+      placeholder="Jedna ścieżka pliku PDF na wiersz."></textarea>
+    <button class="primary" data-testid="ns-start" style="margin-top:.5rem"
+      onclick="startNightshift()">Uruchom kolejkę</button>
+    <span id="ns-stop-slot"></span>
+    <div id="ns-postep" style="margin-top:.8rem"></div>
+    <div id="ns-status" style="margin-top:.4rem"></div>
+  </div>`;
+  await pulsKolejki();
+  if (aktywnaKolejka) {                    // attach to the live batch
+    nsBatch = aktywnaKolejka;
+    if (nsTimer) clearInterval(nsTimer);
+    nsTimer = setInterval(pollNightshift, 3000);
+    pollNightshift();
+  }
+}
+
+async function stopNightshift() {
+  if (!nsBatch) return;
+  const r = await api('/api/queue/stop', {id: nsBatch});
+  $('status').textContent = r.error
+    ? 'Nie udało się zatrzymać kolejki: ' + r.error
+    : 'Zatrzymano kolejkę. Bieżące zadanie zostanie dokończone, kolejne pominięte.';
+}
+
+async function startNightshift() {
+  const paths = ($('ns-paths').value || '').split('\n')
+    .map(s => s.trim()).filter(Boolean);
+  if (!paths.length) { $('status').textContent = 'pusta kolejka'; return; }
+  const r = await api('/api/queue', {pdf_paths: paths});
+  if (r.error) { $('status').textContent = 'błąd: ' + r.error; return; }
+  nsBatch = r.id;
+  if (nsTimer) clearInterval(nsTimer);
+  nsTimer = setInterval(pollNightshift, 3000);
+  pollNightshift();
+  pulsKolejki();
+}
+
+async function pollNightshift() {
+  if (!nsBatch) return;
+  const st = await api('/api/queue/' + encodeURIComponent(nsBatch));
+  if (st.error) return;
+  const rows = st.items.map(i => `<tr>
+    <td class="mono">${esc(i.pdf.split(/[\\/]/).pop())}</td>
+    <td><span class="pill ${i.status==='done' ? (i.PASS?'ok':'err')
+        : i.status==='blad' ? 'err' : ''}">${esc(i.status)}${
+        i.status==='done' ? (i.PASS?' · PASS':' · FAIL') : ''}</span></td>
+    <td>${esc(i.werdykt ?? '—')}</td>
+    <td class="mono">${i.sekundy ?? '—'}</td>
+    <td>${i.job ? `<a href="#" onclick="openJob('${esc(i.job)}');return false">${esc(i.job)}</a>` : '—'}</td></tr>`).join('');
+  const skonczone = st.items.filter(i => ['done', 'blad'].includes(i.status));
+  const czasy = skonczone.map(i => i.sekundy).filter(Boolean);
+  const zostalo = st.items.filter(i => ['czeka', 'w_toku'].includes(i.status)).length;
+  const eta = (czasy.length && zostalo)
+    ? Math.round(czasy.reduce((a, b) => a + b, 0) / czasy.length * zostalo) : null;
+  const pr = $('ns-postep');
+  if (pr) pr.innerHTML = st.done ? '' : `
+    <div class="pasek"><div class="wyp" style="width:${
+      Math.round(100 * skonczone.length / st.items.length)}%"></div></div>
+    <div class="dim mono" style="font-size:.72rem;display:flex;justify-content:space-between">
+      <span>Przetworzono ${skonczone.length} z ${st.items.length}</span>
+      <span>${eta != null ? 'Szacowany czas do końca: ' + etaTekst(eta)
+        : 'Szacowany czas: po pierwszym zadaniu'}</span></div>`;
+  const listy = (st.done && st.przerwana) ? (() => {
+    const ok = st.items.filter(i => i.status === 'done')
+      .map(i => i.pdf.split(/[\\/]/).pop());
+    const pom = st.items.filter(i => i.status === 'pominiety');
+    return `<div class="warn" style="margin-top:.6rem">Kolejka zatrzymana.
+        Przetworzone (${ok.length}): ${ok.map(esc).join(', ') || '—'}.<br>
+        Nieprzetworzone (${pom.length}): ${pom.map(i => esc(i.pdf.split(/[\\/]/).pop())).join(', ') || '—'}.
+        ${pom.length ? `<div style="margin-top:.4rem"><button data-testid="ns-resume"
+          onclick="wstawPominiete()">Wstaw nieprzetworzone do pola kolejki</button></div>` : ''}</div>`;
+  })() : '';
+  window._nsPominiete = st.items.filter(i => i.status === 'pominiety')
+    .map(i => i.pdf);
+  const el = $('ns-status');
+  if (el) el.innerHTML = listy +
+    `<table><tr><th>Plik</th><th>Status</th><th>Werdykt</th><th>Czas [s]</th><th>Job</th></tr>${rows}</table>` +
+    (st.raport ? `<div style="margin-top:.6rem"><a class="mono" target="_blank" href="${st.raport}" data-testid="ns-raport">raport_poranny.md</a></div>` : '');
+  const slot = $('ns-stop-slot');
+  if (slot) slot.innerHTML = (!st.done && nsBatch)
+    ? `<button data-testid="ns-stop" style="margin-left:.5rem"
+         title="Bieżące zadanie zostanie dokończone; kolejne nie zostaną rozpoczęte."
+         onclick="stopNightshift()">Zatrzymaj kolejkę</button>` : '';
+  if (st.done && nsTimer) { clearInterval(nsTimer); nsTimer = null;
+    $('status').textContent = st.przerwana
+      ? 'Kolejka zatrzymana — raport zawiera listę pozycji nieprzetworzonych.'
+      : 'Kolejka zakończona.';
+    pulsKolejki(); refresh(); }
+}
+
+function wstawPominiete() {
+  showNightshift().then(() => {
+    const t = $('ns-paths');
+    if (t) t.value = (window._nsPominiete || []).join('\n');
+    nsBatch = null;
+    if (nsTimer) { clearInterval(nsTimer); nsTimer = null; }
+    $('status').textContent = 'Lista nieprzetworzonych plików wstawiona — '
+      + 'kliknij „Uruchom kolejkę", aby je przeliczyć.';
+  });
+}
+
+async function startCrew() {
+  $('status').textContent = 'Trwa uruchamianie trybu krok po kroku…';
+  const r = await api('/api/crew/start', {});
+  if (r.error) {
+    $('status').textContent = r.error;
+    showNightshift();
+    return;
+  }
+  crewJob = r.job;
+  renderCrewStage(r.next_stage, null);
+  crewStep('run');
+}
+
+function renderCrewStage(stage, res) {
+  const wynik = res ? JSON.stringify(res.wynik, null, 1) : '';
+  $('view').innerHTML = `
+  <div class="card" data-testid="crew">
+    <h3>Tryb krok po kroku <span class="dim">· <span class="mono">${esc(crewJob)}</span> ·
+      etap: <b class="etap" style="color:var(--tusz)">${esc(stage)}</b>
+      ${res && res.prompt_hash ? `<span class="mono" style="font-size:.7rem">instrukcja ${esc(res.prompt_hash)}</span>` : ''}</span></h3>
+    ${res ? `<details open><summary>Wynik etapu (JSON)</summary>
+       <pre data-testid="crew-result">${esc(wynik.slice(0, 4000))}</pre></details>
+     <div style="display:flex;gap:.6rem;margin-top:.6rem;align-items:flex-start">
+       <button class="primary" data-testid="crew-accept" onclick="crewStep('accept')">Zatwierdź i kontynuuj</button>
+       <div style="flex:1">
+         <textarea id="crew-dopisek" data-testid="crew-dopisek" style="min-height:70px"
+           placeholder="Dopisek do tego etapu — np. „Daty bierz wyłącznie ze sprawozdania technicznego."></textarea>
+         <button data-testid="crew-retry" onclick="crewStep('retry')" style="margin-top:.3rem">Powtórz etap z dopiskiem</button>
+         <button data-testid="crew-save-manual" onclick="saveDopisekToManual('${esc(stage)}')" style="margin-top:.3rem">Zapisz dopisek w instrukcji</button>
+       </div>
+     </div>` : `<div class="dim">Trwa przetwarzanie etapu…</div>`}
+    <div class="dim" style="font-size:.75rem;margin-top:.6rem">
+      Dopisek obowiązuje tylko w tym przebiegu (zapis w overrides.jsonl).
+      Przycisk „Zapisz dopisek w instrukcji" utrwala go w nakładce
+      użytkownika — będzie obowiązywał we wszystkich kolejnych zadaniach.</div>
+  </div>`;
+}
+
+async function crewStep(action) {
+  const dopisek = action === 'retry' ? ($('crew-dopisek')?.value || '').trim() : null;
+  $('status').textContent = 'Trwa przetwarzanie etapu…';
+  const r = await api('/api/crew/step', {job: crewJob, action, dopisek});
+  $('status').textContent = 'gotowy';
+  if (r.error) { $('status').textContent = 'błąd: ' + r.error; return; }
+  if (r.done) { await refresh(); openJob(crewJob); return; }
+  if (r.awaiting) { renderCrewStage(r.stage, r); return; }
+  renderCrewStage(r.next_stage, null);
+  crewStep('run');
+}
+
+const AGENT_BY_STAGE = {klasyfikator: 'klasyfikator', naglowek: 'ekstraktor_naglowka',
+                        wykaz: 'ekstraktor_wykazu', werdykt: 'werdyktor'};
+
+async function saveDopisekToManual(stage) {
+  const dop = ($('crew-dopisek')?.value || '').trim();
+  if (!dop) { $('status').textContent = 'Wpisz treść dopisku.'; return; }
+  const agent = AGENT_BY_STAGE[stage];
+  const cur = await api('/api/prompt/' + agent);
+  const base = cur.user ?? cur.golden;
+  const content = base + (base.includes('# DOPISKI OPERATORA') ? '' :
+    '\n\n# DOPISKI OPERATORA\n') + '- ' + dop + '\n';
+  const r = await api('/api/prompt/' + agent, {content});
+  $('status').textContent = `Zapisano dopisek w instrukcji ${agent} (${r.source} ${r.hash}).`;
+  refresh();
+}
+
+async function showEvidence(job, page, value) {
+  const d = await api(`/api/evidence/${encodeURIComponent(job)}/${page}?value=${encodeURIComponent(value)}`);
+  if (d.error) { $('status').textContent = 'Nie udało się wczytać dowodu: ' + d.error; return; }
+  const lb = $('lightbox'), img = $('lb-img'), stage = $('lb-stage');
+  stage.querySelectorAll('.hl').forEach(h => h.remove());
+  img.onload = () => {
+    (d.rects || []).forEach(r => {
+      const h = document.createElement('div');
+      h.className = 'hl';
+      h.style.left = (r[0] * 100) + '%';
+      h.style.top = (r[1] * 100) + '%';
+      h.style.width = ((r[2] - r[0]) * 100) + '%';
+      h.style.height = ((r[3] - r[1]) * 100) + '%';
+      stage.appendChild(h);
+      h.scrollIntoView({block: 'center'});
+    });
+  };
+  img.src = d.png;
+  $('lb-cap').textContent = d.found
+    ? `„${value}" — s. ${page}, źródło: ${d.zrodlo}`
+    : `„${value}" — nie zlokalizowano na s. ${page} (pokazuję stronę)`;
+  $('lb-pdf').href = d.pdf;
+  lb.style.display = 'flex';
+}
+
+async function showRodowod(id) {
+  const rows = await api('/api/rodowod/' + encodeURIComponent(id));
+  $('rd-body').innerHTML = `<h3 style="font:700 1.15rem 'Poltawski Nowy',serif;margin:.1rem 0 .7rem">
+      Rodowód punktu <span class="mono">${esc(id)}</span></h3>
+    <table><tr><th>Data</th><th>Operat</th><th class="mono">X</th><th class="mono">Y</th>
+      <th>ZRD/BPP/STB/RZG</th><th>Δ [m]</th><th>Flaga</th><th></th></tr>
+    ${rows.map(r => `<tr${r.t_invalid?' style="opacity:.55"':''}>
+      <td class="mono">${esc(r.data)}</td><td class="mono">${esc(r.operat)}</td>
+      <td class="mono">${r.x?.toFixed(2)}</td><td class="mono">${r.y?.toFixed(2)}</td>
+      <td class="mono">${esc(r.zrd)}/${esc(r.bpp)}/${esc(r.stb)}/${esc(r.rzg)}</td>
+      <td class="mono">${r.delta_m ?? '—'}</td>
+      <td><span class="odb male fl-${r.flaga}">${esc(r.flaga)}</span></td>
+      <td class="dim">${r.t_invalid ? 'zastąpiony' : 'AKTUALNY'}</td></tr>`).join('')}
+    </table>
+    <div class="dim" style="margin-top:.6rem;font-size:.8rem">Pełna historia
+      punktu: wersje zastąpione pozostają widoczne, nic nie jest usuwane.
+      Flaga wynika z historii pomiarów, nie z deklaracji operatu.</div>`;
+  $('rodowod').style.display = 'flex';
+}
+
+async function openChat(ctxId) {
+  sel = null;
+  bezPanelu(); chatCtx = ctxId;
+  let rowsHtml = '<div class="dim">Nowa rozmowa — napisz pierwszą wiadomość.</div>';
+  if (ctxId) {
+    const rows = await api('/api/context/' + encodeURIComponent(ctxId) + '/rows');
+    rowsHtml = rows.map(r => r.role === 'user'
+      ? `<div class="msg op"><span class="kto">Operator</span>${esc(r.content)}</div>`
+      : r.role === 'assistant'
+      ? `<div class="msg"><span class="kto">geodoc</span>${esc(r.content)}</div>`
+      : r.kind === 'compact'
+      ? `<div class="warn">Starsza część rozmowy została streszczona — pełny zapis w pliku summary.md.</div>` : '').join('');
+  }
+  $('view').innerHTML = `
+  <div class="card" data-testid="chat">
+    <h3>Czat główny <span class="dim">${ctxId ? '· <span class="mono">' + esc(ctxId) + '</span>' : '(nowy)'}
+      <span id="chat-util" style="font-size:.72rem;margin-left:.6rem"></span></span></h3>
+    <div id="chat-log" style="max-height:52vh;overflow-y:auto">${rowsHtml}</div>
+    <div style="display:flex;gap:.6rem;margin-top:.7rem">
+      <input id="chat-input" data-testid="chat-input" style="flex:1;font:inherit"
+        placeholder="Napisz wiadomość…"
+        onkeydown="if(event.key==='Enter')sendChat()">
+      <button class="primary" data-testid="chat-send" onclick="sendChat()">Wyślij</button>
+    </div>
+    <div class="dim" style="font-size:.75rem;margin-top:.5rem">
+      Rozmowa zapisuje się na dysku — możesz do niej wrócić po ponownym
+      uruchomieniu programu. Przy zapełnieniu okna kontekstu starsza część
+      rozmowy jest automatycznie streszczana (operacja odwracalna).</div>
+  </div>`;
+}
+
+async function sendChat() {
+  const inp = $('chat-input');
+  const msg = inp.value.trim();
+  if (!msg) return;
+  inp.value = ''; inp.disabled = true;
+  $('status').textContent = 'Trwa przygotowanie odpowiedzi…';
+  const res = await api('/api/chat', {ctx_id: chatCtx, message: msg});
+  inp.disabled = false;
+  $('status').textContent = 'gotowy';
+  if (res.error) { $('status').textContent = 'błąd: ' + res.error; return; }
+  chatCtx = res.ctx_id;
+  await openChat(chatCtx);
+  $('chat-util').textContent = `okno: ${(res.utilization*100).toFixed(0)}%` +
+    (res.compacted ? ' · SKOMPAKTOWANO' : '');
+  refresh();
+}
+
+async function openPrompt(name) {
+  sel = null;
+  bezPanelu();
+  const d = await api('/api/prompt/' + encodeURIComponent(name));
+  await pulsKolejki();
+  $('view').innerHTML = `
+  <div class="card" data-testid="prompt-editor">
+    <h3>Instrukcja agenta <span class="dim">· ${esc(d.name)}
+      <span class="badge ${esc(d.source)}">${esc(d.source)}</span>
+      <span class="mono" style="font-size:.7rem">${esc(d.hash)}</span></span></h3>
+    ${aktywnaKolejka ? `<div class="warn" data-testid="prompt-batch-warn">
+      Trwa przetwarzanie kolejki zadań. Jeśli zapiszesz instrukcję teraz,
+      część zadań zostanie przetworzona według starej wersji, a część według
+      nowej (różnicę wykaże zapis skrótów w wynikach). Zalecany zapis po
+      zakończeniu kolejki — możesz też zatrzymać kolejkę.</div>` : ''}
+    <textarea id="prompt-text" data-testid="prompt-text">${esc(d.user ?? d.golden)}</textarea>
+    <div style="margin-top:.6rem;display:flex;gap:.6rem">
+      <button class="primary" data-testid="prompt-save" onclick="savePrompt('${esc(d.name)}')">Zapisz zmiany</button>
+      <button data-testid="prompt-reset" onclick="resetPrompt('${esc(d.name)}')">Przywróć wersję fabryczną</button>
+    </div>
+    ${d.user !== null ? `<details data-testid="prompt-golden-preview">
+      <summary>Pokaż wersję fabryczną (golden)</summary>
+      <pre>${esc(d.golden)}</pre></details>` : ''}
+    <div class="dim" style="font-size:.78rem;margin-top:.6rem">
+      Wersja fabryczna jest tylko do odczytu — zmiany zapisują się w nakładce
+      użytkownika. Instrukcje są wczytywane przy każdym wywołaniu: zapis
+      obowiązuje od następnego etapu, bez ponownego uruchamiania programu.
+      Każde zadanie zapisuje skrót (hash) instrukcji, według której było
+      przetwarzane.</div>
+  </div>`;
+}
+
+async function savePrompt(name) {
+  const content = $('prompt-text').value;
+  const r = await api('/api/prompt/' + encodeURIComponent(name), {content});
+  $('status').textContent = `Zapisano instrukcję ${name} (${r.source} ${r.hash}). Obowiązuje od następnego etapu.`;
+  refresh(); openPrompt(name);
+}
+
+async function resetPrompt(name) {
+  const r = await api('/api/prompt/' + encodeURIComponent(name) + '/reset', {});
+  $('status').textContent = `Przywrócono wersję fabryczną instrukcji ${name} (${r.hash}).`;
+  refresh(); openPrompt(name);
+}
+
+async function runSample() {
+  const res = await api('/api/run-sample-async', {});
+  if (res.error) {                 // mode-exclusion: batch owns the engine
+    $('status').textContent = res.error;
+    showNightshift();
+    return;
+  }
+  sel = res.job;
+  $('view').innerHTML = `<div class="card" data-testid="live-run">
+    <h3>Analiza dokumentu <span class="dim">— postęp na żywo · ${esc(res.job)}</span></h3>
+    <div id="live-log" class="log" style="max-height:60vh"></div></div>`;
+  $('status').textContent = 'Trwa przetwarzanie dokumentu…';
+  const es = new EventSource('/api/events/' + encodeURIComponent(res.job));
+  es.onmessage = e => {
+    let row; try { row = JSON.parse(e.data); } catch { return; }
+    const badge = row.stage === 'checks'
+      ? `<span class="pill ${row.msg==='PASS'?'ok':'err'}">${esc(row.msg)}</span>` : esc(row.msg);
+    $('live-log').innerHTML += `<div><span class="mono">${esc(row.t)}
+      <span class="etap">${esc(row.stage)}</span></span> — ${badge}</div>`;
+    $('live-log').scrollTop = 1e9;
+  };
+  es.addEventListener('end', async () => {
+    es.close();
+    $('status').textContent = 'gotowy';
+    await refresh();
+    openJob(res.job);
+  });
+}
+
+function zasiegLine(punkty, uklad) {
+  const xs = punkty.map(p => p.x).filter(v => typeof v === 'number');
+  const ys = punkty.map(p => p.y).filter(v => typeof v === 'number');
+  if (xs.length < 2) return '';
+  const g = v => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  return `<div class="zasieg">┼ X ${g(Math.min(...xs))} – ${g(Math.max(...xs))}
+    · Y ${g(Math.min(...ys))} – ${g(Math.max(...ys))} ┼ ${esc(uklad ?? '')}</div>`;
+}
+
+async function sealHash(pieczec) {
+  const data = new TextEncoder().encode(JSON.stringify(pieczec));
+  const h = await crypto.subtle.digest('SHA-256', data);
+  return [...new Uint8Array(h)].slice(0, 4)
+    .map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function openJob(name) {
+  sel = name;
+  bezPanelu();
+  const d = await api('/api/job/' + encodeURIComponent(name));
+  const hdr = d.header || {}, chk = d.checks || {}, wyk = d.wykaz || {punkty: []};
+  const pass = chk.PASS === true;
+  $('view').innerHTML = `
+  <div class="card" data-testid="job-header" style="min-height:104px">
+    <h3>Operat <span class="dim">· ${esc(name)}</span>
+      <span class="pill ${pass?'ok':'err'}" data-testid="checks-pill">${pass?'KONTROLE: PASS':'KONTROLE: FAIL'}</span></h3>
+    ${pass && d.pieczec ? `<span class="seal" id="seal" title="Pieczęć kontroli: wynik można w każdej chwili odtworzyć i zweryfikować.">
+        <svg><use href="#pieczec"/></svg><span class="seal-hash" id="seal-hash"></span></span>`
+      : !pass ? `<span class="plakieta" title="Część kontroli się nie powiodła — dokument wymaga przeglądu przed zatwierdzeniem.">KONTROLE NIEZALICZONE</span>` : ''}
+    <div class="kv" style="padding-right:96px">
+      <b>Cel pracy</b><span>${esc(hdr.cel_pracy)}</span>
+      <b>Zgłoszenie</b><span class="mono">${esc(hdr.id_zgloszenia)}</span>
+      <b>Działka</b><span class="mono">${esc(hdr.dzialka)}</span>
+      <b>Układ</b><span class="mono">${esc(hdr.uklad)}</span>
+      <b>Wykonawca</b><span>${esc(hdr.wykonawca)} (upr. ${esc(hdr.nr_uprawnien)})</span>
+      <b>Daty</b><span>pomiar ${esc(hdr.data_pomiaru)} · operat ${esc(hdr.data_sporzadzenia)}</span>
+      <b>Rodzaj aktu</b><span>${esc(hdr.rodzaj_aktu)}</span>
+    </div>
+  </div>
+  ${d.docmap ? `<div class="card" data-testid="job-docmap">
+    <h3>Mapa dokumentu <span class="dim">· ${d.docmap.source.pages} stron ·
+      <a href="/file/${encodeURIComponent(name)}/document.md" target="_blank" class="mono">document.md</a>
+      ${d.docmap.chapters ? ` · <a href="/file/${encodeURIComponent(name)}/rozdzialy/master.md" target="_blank" class="mono">mapa rozdziałów</a>` : ''}</span></h3>
+    ${d.docmap.chapters ? `<div data-testid="job-chapters" style="margin:.4rem 0 .6rem">
+      ${(d.docmap.chapters.rozdzialy||[]).map(c => `<span class="chip" title="źródło granic: ${esc(c.zrodlo)}">${c.nr}. ${esc(c.tytul)} <span class="mono dim">s. ${c.od}–${c.do}</span></span> `).join('')}
+      ${(d.docmap.chapters.nieoznaczone||[]).map(z => `<span class="chip uwaga" title="strony bez rozpoznanego rozdziału — do decyzji operatora">NIEOZNACZONE s. ${z[0]}–${z[1]}</span> `).join('')}
+      ${(d.docmap.chapters.braki_numeracji||[]).map(b => `<div class="warn">${esc(b)}</div>`).join('')}
+    </div>` : ''}
+    ${d.docmap.braki.fragment_od ? `<div class="warn">Dokument zaczyna się od strony drukowanej ${d.docmap.braki.fragment_od} — fragment większego operatu.</div>` : ''}
+    ${(d.docmap.braki.folio_luki||[]).map(g => `<div class="warn">BRAKUJE ${g.brakuje} str. (folio ${g.zakres[0]}–${g.zakres[1]}) — ${esc(g.dowod)}</div>`).join('')}
+    ${(d.docmap.braki.uwagi||[]).map(u => `<div class="warn">${esc(u)}</div>`).join('')}
+    <table><tr><th>s.</th><th>Folio</th><th>Typ</th><th>Tytuł / temat</th></tr>
+      ${(d.docmap.toc||[]).map(t => { const pg = d.docmap.pages[t.page-1]; return `<tr>
+        <td class="mono"><a href="/file/${encodeURIComponent(name)}/transcript/page-${String(t.page).padStart(3,'0')}.md" target="_blank">${t.page}</a></td>
+        <td class="mono">${pg.folio ?? '—'}</td>
+        <td><span class="chip">${esc(pg.typ)}</span></td>
+        <td>${esc(t.tytul)}</td></tr>`; }).join('')}
+    </table>
+  </div>` : ''}
+  <div class="card" data-testid="job-wykaz">
+    <h3>Wykaz współrzędnych <span class="dim">· ${wyk.liczba_punktow ?? 0} pkt · str. ${esc(wyk.strona_wykazu)}</span></h3>
+    ${zasiegLine(wyk.punkty || [], hdr.uklad)}
+    <table class="wykaz"><tr><th>ID</th><th class="mono">X</th><th class="mono">Y</th>
+      <th>ZRD</th><th>BPP</th><th>STB</th><th>RZG</th><th>Status</th><th>Str.</th></tr>
+      ${(wyk.punkty||[]).map(p => { const fl = new Set(((chk.flagi||{}).wsp_jeden_silnik||[]).filter(f => f.id===p.id).map(f => f.wsp));
+        const mark = v => fl.has(v.toFixed(2)) ? ` class="mono ev w1s" title="potwierdzone tylko jednym silnikiem OCR — do recenzji"` : ' class="mono ev"';
+        const ev = v => ` onclick="showEvidence('${esc(name)}',${p.page},'${v.toFixed(2)}')"`;
+        const rd = (d.rodowod||{})[p.id];
+        const rdChip = rd ? ` <span class="odb male fl-${rd.flaga}" data-testid="rodowod-chip"
+          title="rodowód punktu — flaga z historii pomiarów${rd.delta_m!=null?` (Δ ${rd.delta_m} m)`:''}"
+          onclick="showRodowod('${esc(p.id)}')">${rd.flaga==='bez_zmian'?'=':rd.flaga==='zmieniony'?'ZM':'N'}</span>` : '';
+        return `<tr><td class="mono">${esc(p.id)}${fl.size?' <span class="badge golden" title="wiersz do recenzji">!</span>':''}${rdChip}</td>
+        <td${mark(p.x)}${ev(p.x)}>${p.x?.toFixed(2)}</td><td${mark(p.y)}${ev(p.y)}>${p.y?.toFixed(2)}</td>
+        <td>${esc(p.zrd)}</td><td>${esc(p.bpp)}</td><td>${esc(p.stb)}</td>
+        <td>${esc(p.rzg)}</td><td>${esc(p.status)}</td>
+        <td class="mono"><a href="/file/${encodeURIComponent(name)}/transcript/page-${String(p.page).padStart(3,'0')}.md" target="_blank" title="źródło: transkrypt strony">${p.page}</a></td></tr>`; }).join('')}
+    </table>
+  </div>
+  <div class="card" data-testid="job-checks">
+    <h3>Kontrole <span class="dim">(obliczane przez program)</span></h3>
+    <div class="kv">${Object.entries(chk).map(([k,v]) =>
+      `<b>${esc(k)}</b><span class="mono">${esc(JSON.stringify(v))}</span>`).join('')}</div>
+  </div>
+  <div class="card" data-testid="job-rewizja">
+    <h3>Przegląd wyników <span class="dim">(pytania do danych)</span></h3>
+    <div id="rw-log" style="max-height:40vh;overflow-y:auto"></div>
+    <div style="display:flex;gap:.6rem;margin-top:.7rem">
+      <input id="rw-input" data-testid="rewizja-input" style="flex:1;font:inherit"
+        placeholder="Zadaj pytanie o wyniki — np. „Dlaczego punkt 152.4-06 ma status SPRAWDŹ?""
+        onkeydown="if(event.key==='Enter')sendRewizja('${esc(name)}')">
+      <button class="primary" data-testid="rewizja-send"
+        onclick="sendRewizja('${esc(name)}')">Zapytaj</button>
+    </div>
+    <div class="dim" style="font-size:.75rem;margin-top:.5rem">
+      Odpowiedzi powstają wyłącznie z fragmentów dokumentu dobranych przez
+      program; liczby są cytowane dosłownie, z numerem strony. Rozmowa
+      zapisuje się w pliku
+      <a class="mono" target="_blank"
+        href="/file/${encodeURIComponent(name)}/analizy/rewizja.md">analizy/rewizja.md</a>
+      obok dokumentów wynikowych.</div>
+    <div id="rf-hint" style="display:none;margin-top:.7rem;padding-top:.6rem;
+        border-top:1px solid var(--linia)">
+      <span class="dim" style="font-size:.78rem">Na podstawie tego zadania
+        program może przygotować <b>propozycje usprawnień</b> — zmiany reguł
+        w instrukcjach agentów (pozytywne „zawsze…" i negatywne „nigdy…").
+        Propozycje obowiązują dopiero po Twoim zatwierdzeniu
+        i działają od następnego etapu, bez ponownego uruchamiania programu.</span>
+      <div style="margin-top:.4rem">
+        <button data-testid="refleksja-run"
+          onclick="zamowRefleksje('${esc(name)}')">Przygotuj propozycje usprawnień</button>
+      </div>
+      <div id="rf-out" style="margin-top:.5rem"></div>
+    </div>
+  </div>
+  <div class="card" data-testid="job-outputs">
+    <h3>Pliki wynikowe</h3>
+    ${(d.outputs||[]).map(o => `<div>· <a href="/file/${encodeURIComponent(name)}/out/${encodeURIComponent(o)}"
+      target="_blank" class="mono">${esc(o)}</a></div>`).join('') || '<span class="dim">brak</span>'}
+  </div>
+  <div class="card"><h3>Dziennik przebiegu</h3>
+    <div class="log">${(d.log||[]).map(l =>
+      `<div><span class="mono">${esc(l.t)} <span class="etap">${esc(l.stage)}</span></span> — ${esc(l.msg)}</div>`).join('')}</div>
+  </div>`;
+  if (pass && d.pieczec) sealHash(d.pieczec).then(h => {
+    const el = $('seal-hash'); if (el) el.textContent = h; });
+  loadRewizja(name);
+  refresh();
+}
+
+function rwRender(job, d) {
+  const lnk = n => `<a href="/file/${encodeURIComponent(job)}/transcript/page-${String(n).padStart(3,'0')}.md" target="_blank">s. ${n}</a>`;
+  $('rw-log').innerHTML = (d.wpisy || []).length
+    ? d.wpisy.map(w => `
+      <div class="msg op"><span class="kto">Operator</span>${esc(w.pytanie)}</div>
+      ${w.odpowiedz != null ? `<div class="msg"><span class="kto">Rewident${
+        (w.zrodla || []).length ? ' · materiał: ' + w.zrodla.map(lnk).join(' ') : ''}</span>${esc(w.odpowiedz)}</div>` : ''}`).join('')
+    : '<div class="dim" style="font-size:.8rem">Brak pytań — zadaj pierwsze.</div>';
+}
+
+async function loadRewizja(job) {
+  const d = await api('/api/rewizja/' + encodeURIComponent(job));
+  if ($('rw-log')) rwRender(job, d);
+  const h = $('rf-hint');
+  if (h) h.style.display = (d.wpisy || []).length ? '' : 'none';
+}
+
+let rfProps = [];
+async function zamowRefleksje(job) {
+  $('status').textContent = 'Trwa przygotowanie propozycji…';
+  const r = await api('/api/refleksja', {job});
+  $('status').textContent = 'gotowy';
+  if (r.error) { $('status').textContent = 'Nie udało się przygotować propozycji: ' + r.error; return; }
+  rfProps = r.propozycje || [];
+  $('rf-out').innerHTML = rfProps.length ? rfProps.map((p, i) => `
+    <div style="border:1px solid var(--linia);border-left:3px solid var(--tusz);
+        border-radius:2px;padding:.5rem .8rem;margin:.4rem 0">
+      <b class="mono" style="font-size:.8rem">${esc(p.agent)}</b>
+      <span class="dim" style="font-size:.75rem"> — ${esc(p.uzasadnienie)}</span>
+      <ul style="margin:.3rem 0 .4rem;padding-left:1.2rem;font-size:.82rem">
+        ${p.zasady.map(z => `<li><span class="badge ${z.typ==='negatywna'?'golden':'user'}">${esc(z.typ)}</span> ${esc(z.tresc)}</li>`).join('')}
+      </ul>
+      <button data-testid="refleksja-apply-${esc(p.agent)}"
+        onclick="zastosujRefleksje(${i})">Zatwierdź i zapisz w instrukcji</button>
+    </div>`).join('')
+    : '<div class="dim" style="font-size:.8rem">Brak wyraźnych wzorców do utrwalenia — propozycje nie powstały.</div>';
+}
+
+async function zastosujRefleksje(i) {
+  const p = rfProps[i];
+  if (!p) return;
+  const r = await api('/api/refleksja/zastosuj', {agent: p.agent, zasady: p.zasady});
+  $('status').textContent = r.error
+    ? 'Nie udało się zapisać reguł: ' + r.error
+    : `Zapisano reguły w instrukcji ${p.agent} (${r.hash}). Obowiązują od następnego etapu.`;
+  refresh();
+}
+
+async function sendRewizja(job) {
+  const inp = $('rw-input');
+  const pyt = inp.value.trim();
+  if (!pyt) return;
+  inp.disabled = true;
+  $('status').textContent = 'Trwa przygotowanie odpowiedzi…';
+  const r = await api('/api/rewizja', {job, pytanie: pyt});
+  inp.disabled = false;
+  $('status').textContent = 'gotowy';
+  if (r.error) { $('status').textContent = 'Nie udało się przygotować odpowiedzi: ' + r.error; return; }
+  inp.value = '';
+  loadRewizja(job);
+  refresh();
+}
+
+// === ROZMOWY — konwersacja jako jednostka (dokument w czacie) ===
+const ETAPY = ['klasyfikator', 'naglowek', 'wykaz', 'werdykt'];
+const ETAP_OPIS = {klasyfikator: 'Klasyfikacja dokumentu',
+  naglowek: 'Nagłówek operatu', wykaz: 'Wykaz współrzędnych',
+  werdykt: 'Ocena końcowa'};
+let rozmowaId = null, rozmowaJob = null, agentPracuje = false,
+    czekaEtap = null, rozmowaAdopt = false, markerStan = 'brak';
+
+async function refreshRozmowy() {
+  const ls = await api('/api/rozmowy');
+  $('rozmowy').innerHTML = ls.length ? ls.map(r => {
+    const msz = r.maszyna === true ? '<span class="msz-pass" title="Wszystkie kontrole zaliczone">✓</span>'
+      : r.maszyna === false ? '<span class="msz-fail" title="Kontrole: FAIL">✕</span>'
+      : '<span class="msz-toku" title="w przygotowaniu">⋯</span>';
+    const mk = r.marker === 'zatwierdzona'
+      ? '<span class="mk-zatwierdzona" title="Zatwierdzona przez operatora">✓</span>'
+      : r.marker === 'odrzucona'
+      ? '<span class="mk-odrzucona" title="Odrzucona przez operatora">✕</span>' : '';
+    const kol = r.kolejka ? `kolejka ${esc(r.kolejka.slice(4, 8))} · ` : '';
+    const id = r.id ? `'${esc(r.id)}'` : 'null';
+    return `<div class="rozmowa ${r.id === rozmowaId && rozmowaId ? 'sel' : ''}"
+        data-testid="rozmowa-${esc(r.job || r.id)}"
+        onclick="otworzRozmowe(${id}, '${esc(r.job || '')}')">
+      <div class="naz">${esc(r.nazwa)}<span class="glify">${msz} ${mk}</span></div>
+      <div class="pod">${kol}${r.turns ? r.turns + ' wpisów' : 'bez rozmowy'}</div>
+    </div>`;
+  }).join('') : '<div class="dim" style="font-size:.8rem">Brak rozmów — wrzuć pierwszy dokument.</div>';
+}
+
+function nowaRozmowa() {
+  let inp = $('plik-ukryty');
+  if (!inp) {
+    inp = document.createElement('input');
+    inp.type = 'file'; inp.accept = '.pdf'; inp.id = 'plik-ukryty';
+    inp.style.display = 'none';
+    inp.onchange = () => inp.files[0] && przyjmijPlik(inp.files[0]);
+    document.body.appendChild(inp);
+  }
+  inp.click();
+}
+
+async function przyjmijPlik(file) {
+  $('status').textContent = `Trwa wysyłanie pliku ${file.name}…`;
+  const up = await (await fetch('/api/upload?nazwa=' +
+    encodeURIComponent(file.name), {method: 'POST', body: file})).json();
+  if (up.error) { $('status').textContent = up.error; return; }
+  const r = await api('/api/rozmowa/start', {pdf_path: up.path});
+  if (r.error) { $('status').textContent = r.error; showNightshift(); return; }
+  $('status').textContent = 'gotowy';
+  await otworzRozmowe(r.rozmowa, r.job);
+  petlaKrok('run');
+}
+
+async function otworzRozmowe(id, job) {
+  if (!id && job) {                       // legacy/batch: adopt lazily
+    const a = await api('/api/rozmowa/adoptuj', {job});
+    if (a.error) { $('status').textContent = a.error; return; }
+    id = a.rozmowa; rozmowaAdopt = true;
+  } else {
+    rozmowaAdopt = false;
+  }
+  rozmowaId = id; rozmowaJob = job || null; sel = null;
+  czekaEtap = null; agentPracuje = false;
+  const m = (await api('/api/rozmowy')).find(r => r.id === id) || {};
+  markerStan = m.marker || 'brak';
+  document.getElementById('glowna').classList.add('z-panelem');
+  $('panel').style.display = '';
+  $('view').innerHTML = `
+  <div id="czat" data-testid="czat-rozmowy">
+    <div id="czat-gora">
+      <span class="naz">${esc(m.nazwa || job || id)}</span>
+      <span class="dim" style="font-size:.72rem" class="mono">${esc(job || '')}</span>
+      <div class="marker-prz" data-testid="marker" title="Zamknięcie rozmowy przez operatora">
+        <button onclick="ustawMarker('brak')" id="mk-brak">—</button>
+        <button class="zat" onclick="ustawMarker('zatwierdzona')" id="mk-zat">✓ Zatwierdzona</button>
+        <button class="odr" onclick="ustawMarker('odrzucona')" id="mk-odr">✕ Odrzucona</button>
+      </div>
+    </div>
+    <div id="czat-log"></div>
+    <div id="czat-dol">
+      <div id="sugestie"></div>
+      <div class="rzad">
+        <input id="czat-wej" data-testid="rozmowa-input" style="flex:1;font:inherit"
+          placeholder="Napisz wiadomość…"
+          onkeydown="if(event.key==='Enter')wyslijRozmowe();
+                     if(event.key==='Escape')trybDopisku(false)"
+          oninput="pilnujTrybu()">
+        <button class="primary" id="czat-slij" data-testid="rozmowa-send"
+          onclick="wyslijRozmowe()">Wyślij</button>
+      </div>
+      <div id="czat-hint"></div>
+    </div>
+  </div>`;
+  malujMarker();
+  await odswiezWatek();
+  refreshRozmowy();
+}
+
+function malujMarker() {
+  ['brak', 'zat', 'odr'].forEach(k => $('mk-' + k)?.classList.remove('on'));
+  const el = markerStan === 'zatwierdzona' ? 'mk-zat'
+    : markerStan === 'odrzucona' ? 'mk-odr' : 'mk-brak';
+  $(el)?.classList.add('on');
+}
+
+async function ustawMarker(status) {
+  const r = await api('/api/rozmowa/marker', {rozmowa: rozmowaId, status});
+  if (r.error) { $('status').textContent = r.error; return; }
+  markerStan = status; malujMarker(); refreshRozmowy();
+  $('status').textContent = status === 'brak' ? 'Usunięto oznaczenie rozmowy.'
+    : status === 'zatwierdzona' ? 'Rozmowa oznaczona jako zatwierdzona.'
+    : 'Rozmowa oznaczona jako odrzucona.';
+}
+
+function ikonaPliku(nazwa) {
+  const e = nazwa.split('.').pop().toLowerCase();
+  const kl = e === 'csv' ? 'csv' : e === 'pdf' ? 'pdf' : '';
+  return `<span class="ik ${kl}">${esc(e.toUpperCase())}</span>`;
+}
+
+function kartaZalacznika(z) {
+  const kb = z.bajty != null ? (z.bajty / 1024).toFixed(1) + ' KB' : '';
+  return `<a class="zalacznik" href="${z.url}" target="_blank">
+    ${ikonaPliku(z.plik)}<span>${esc(z.plik)}<br>
+    <span class="met">${kb}</span></span></a>`;
+}
+
+function wierszHtml(r, i, ostatniEtapIdx) {
+  if (r.role === 'note') return '';
+  if (r.kind === 'plik')
+    return `<div class="msg op"><span class="kto">Operator</span>
+      <span class="zalacznik">${ikonaPliku(r.plik || 'x.pdf')}
+      <span>${esc(r.plik)}</span></span></div>`;
+  if (r.kind === 'digest')
+    return `<div class="dim" style="font-size:.7rem;text-align:center;margin:.5rem 0">
+      · dane dokumentu dołączone do rozmowy ·</div>`;
+  if (r.kind === 'dopisek')
+    return `<div class="msg op"><span class="kto">Operator · dopisek (${esc(r.stage || '')})</span>${esc(r.content)}</div>`;
+  if (r.role === 'user')
+    return `<div class="msg op"><span class="kto">Operator</span>${esc(r.pytanie ?? r.content)}</div>`;
+  if (r.kind === 'etap') {
+    return `<div class="etap-karta">
+      <div class="tyt">${esc(ETAP_OPIS[r.stage] || r.stage)}
+        ${r.prompt_hash ? `<span class="dim mono" style="font-size:.62rem"> · instrukcja ${esc(r.prompt_hash)}</span>` : ''}</div>
+      <div style="margin-top:.25rem;white-space:pre-line">${esc(r.content)}</div></div>`;
+  }
+  if (r.kind === 'final') {
+    const zal = (r.zalaczniki || []).map(kartaZalacznika).join('');
+    return `<div class="msg"><span class="kto">geodoc</span>${esc(r.content)}
+      <div style="margin-top:.4rem">${zal}</div></div>`;
+  }
+  const zrodla = (r.zrodla || []).length && rozmowaJob
+    ? ' · materiał: ' + r.zrodla.map(n =>
+        `<a href="/file/${encodeURIComponent(rozmowaJob)}/transcript/page-${String(n).padStart(3, '0')}.md" target="_blank">s. ${n}</a>`).join(' ')
+    : '';
+  return `<div class="msg"><span class="kto">geodoc${zrodla}</span>${esc(r.content)}</div>`;
+}
+
+async function odswiezWatek() {
+  const rows = await api('/api/context/' + encodeURIComponent(rozmowaId) + '/rows');
+  finalGotowy = rozmowaAdopt || rows.some(r => r.kind === 'final');
+  let ostatniEtapIdx = -1;
+  rows.forEach((r, i) => { if (r.kind === 'etap') ostatniEtapIdx = i; });
+  let html = '';
+  if (rozmowaAdopt && rozmowaJob) html += await naglowekAdopcji();
+  html += rows.map((r, i) => wierszHtml(r, i, ostatniEtapIdx)).join('');
+  if (agentPracuje) html += `<div class="agent-linia" data-testid="agent-pracuje">
+    <span class="kropka">●</span> Agent ${esc(ETAP_OPIS[czekaEtap] || czekaEtap || '')} pracuje…</div>`;
+  const brakFinalu = !rozmowaAdopt
+    && !rows.some(r => r.kind === 'final') && !agentPracuje && !czekaEtap;
+  if (brakFinalu && rows.some(r => r.kind === 'plik'))
+    html += `<div style="margin:.6rem 0"><button class="primary"
+      data-testid="kontynuuj" onclick="petlaKrok('run')">Kontynuuj przetwarzanie</button></div>`;
+  $('czat-log').innerHTML = html;
+  $('czat-log').scrollTop = 1e9;
+  malujComposer();
+  malujPanel(rows);
+}
+
+const DOPISEK_PREFIX = 'Popraw ten etap: ';
+let trybDopisek = false;
+let poprawkaEtap = null;       // po plikach: wybrany etap do poprawy
+let finalGotowy = false;       // w wątku jest wiadomość końcowa
+
+function prefiksPoprawki() {
+  return poprawkaEtap
+    ? `Popraw (${ETAP_OPIS[poprawkaEtap].toLowerCase()}): `
+    : DOPISEK_PREFIX;
+}
+
+function trybDopisku(wlacz, etap) {
+  const inp = $('czat-wej'), slij = $('czat-slij');
+  trybDopisek = !!wlacz;
+  poprawkaEtap = wlacz ? (etap || null) : null;
+  const pref = prefiksPoprawki();
+  if (wlacz) {
+    if (!inp.value.startsWith(pref)) inp.value = pref;
+    inp.focus();
+    inp.setSelectionRange(inp.value.length, inp.value.length);
+    slij.textContent = 'Popraw i przelicz';
+  } else {
+    ['Popraw ten etap: ', 'Popraw ('].forEach(p => {
+      if (inp.value.startsWith(p)) inp.value = '';
+    });
+    slij.textContent = 'Wyślij';
+  }
+  malujComposer();
+}
+
+function pilnujTrybu() {
+  const inp = $('czat-wej');
+  if (trybDopisek && !inp.value.startsWith(prefiksPoprawki()))
+    trybDopisku(false);
+}
+
+function malujComposer() {
+  const slij = $('czat-slij'), hint = $('czat-hint'), sg = $('sugestie');
+  if (!slij) return;
+  if (agentPracuje) {
+    slij.setAttribute('aria-disabled', 'true');
+    hint.textContent = czekaEtap === 'pytanie'
+      ? 'Trwa przygotowanie odpowiedzi…'
+      : 'Agent pracuje nad etapem — wiadomość wyślesz, gdy etap się zakończy.';
+    if (sg) sg.innerHTML = '';
+    return;
+  }
+  slij.removeAttribute('aria-disabled');
+  // sugerowane odpowiedzi (wzorzec czatu): zatwierdzenie jednym kliknięciem,
+  // poprawka jako edytowalny szkic w polu wiadomości
+  if (sg) {
+    if (czekaEtap && czekaEtap !== 'pytanie') {
+      sg.innerHTML = `
+        <button class="sugestia" data-testid="etap-akceptuj"
+          onclick="akceptujEtap()">✓ Wszystko się zgadza — kontynuuj</button>
+        <button class="sugestia" data-testid="etap-powtorz"
+          onclick="trybDopisku(true)">Popraw ten etap…</button>`;
+    } else if (finalGotowy && !trybDopisek) {
+      // po plikach: pętla do zadowolenia operatora
+      sg.innerHTML = rozmowaAdopt ? `
+        <button class="sugestia" data-testid="final-zatwierdz"
+          onclick="ustawMarker('zatwierdzona')">✓ Wszystko dobrze — zatwierdzam</button>
+        <button class="sugestia" data-testid="final-ponownie"
+          onclick="przetworzPonownie()">Przetwórz ponownie krok po kroku</button>` : `
+        <button class="sugestia" data-testid="final-zatwierdz"
+          onclick="ustawMarker('zatwierdzona')">✓ Wszystko dobrze — zatwierdzam</button>
+        <button class="sugestia" data-testid="final-popraw"
+          onclick="pokazWyborEtapu()">Popraw etap…</button>`;
+    } else if (finalGotowy && trybDopisek && !poprawkaEtap) {
+      sg.innerHTML = ETAPY.map(s => `
+        <button class="sugestia" onclick="trybDopisku(true,'${s}')"
+          data-testid="popraw-${s}">${esc(ETAP_OPIS[s])}</button>`).join('')
+        + `<button class="sugestia" onclick="trybDopisku(false)">Anuluj</button>`;
+    } else {
+      sg.innerHTML = '';
+    }
+  }
+  hint.textContent = trybDopisek
+    ? (poprawkaEtap
+       ? 'Dopisz, co zmienić — etap i wszystko po nim przeliczę ponownie, pliki wygenerują się od nowa. Esc anuluje.'
+       : (finalGotowy
+          ? 'Wybierz etap do poprawy.'
+          : 'Dopisz, co poprawić — etap zostanie powtórzony z Twoją wskazówką. Esc anuluje.'))
+    : (czekaEtap && czekaEtap !== 'pytanie')
+    ? 'Możesz też po prostu zadać pytanie o dotychczasowe dane.'
+    : '';
+}
+
+function pokazWyborEtapu() {
+  trybDopisek = true; poprawkaEtap = null;
+  malujComposer();
+}
+
+async function przetworzPonownie() {
+  $('status').textContent = 'Trwa przygotowanie nowej rozmowy…';
+  const r = await api('/api/rozmowa/ponownie', {job: rozmowaJob});
+  if (r.error) { $('status').textContent = r.error; return; }
+  $('status').textContent = 'gotowy';
+  await otworzRozmowe(r.rozmowa, r.job);
+  petlaKrok('run');
+}
+
+async function naglowekAdopcji() {
+  const d = await api('/api/job/' + encodeURIComponent(rozmowaJob));
+  const chk = d.checks || {};
+  const pass = chk.PASS === true;
+  const zal = (d.outputs || []).map(o => kartaZalacznika(
+    {plik: o, url: `/file/${encodeURIComponent(rozmowaJob)}/out/${encodeURIComponent(o)}`}));
+  return `<div class="msg"><span class="kto">geodoc</span>${
+    'Dokument został przetworzony automatycznie. ' + (pass
+      ? 'Wszystkie kontrole zaliczone. '
+      : 'Część kontroli się nie powiodła — dokument wymaga Twojego przeglądu. ')
+    + 'Możesz pytać o wyniki — odpowiadam z fragmentów dokumentu, z numerami stron.'
+    }<div style="margin-top:.4rem">${zal.join('')}</div></div>`;
+}
+
+async function petlaKrok(action, dopisek) {
+  agentPracuje = true;
+  czekaEtap = czekaEtap || ETAPY[0];
+  await odswiezWatek();
+  const r = await api('/api/rozmowa/krok',
+    {rozmowa: rozmowaId, action, dopisek: dopisek || null});
+  agentPracuje = false;
+  if (r.error) {
+    $('status').textContent = 'Nie udało się wykonać etapu: ' + r.error;
+    czekaEtap = null; await odswiezWatek(); return;
+  }
+  if (r.awaiting) { czekaEtap = r.stage; await odswiezWatek(); return; }
+  if (r.done) { czekaEtap = null; await odswiezWatek(); refreshRozmowy(); return; }
+  czekaEtap = r.next_stage || null;      // accepted -> auto-run next stage
+  if (czekaEtap) petlaKrok('run'); else await odswiezWatek();
+}
+
+async function akceptujEtap() {
+  if (agentPracuje) return;
+  const s = czekaEtap; czekaEtap = null;
+  $('status').textContent = `Zatwierdzono etap ${s}.`;
+  petlaKrok('accept');
+}
+
+async function wyslijRozmowe() {
+  if (agentPracuje) return;
+  const inp = $('czat-wej');
+  if (trybDopisek && poprawkaEtap) {          // pętla po plikach
+    const dop = inp.value.slice(prefiksPoprawki().length).trim();
+    if (!dop) { inp.focus(); return; }
+    const etap = poprawkaEtap;
+    inp.value = '';
+    trybDopisku(false);
+    agentPracuje = true; czekaEtap = etap;
+    await odswiezWatek();
+    const r = await api('/api/rozmowa/popraw',
+      {rozmowa: rozmowaId, stage: etap, dopisek: dop});
+    agentPracuje = false;
+    if (r.error) { $('status').textContent = r.error; czekaEtap = null; }
+    else czekaEtap = r.awaiting ? r.stage : null;
+    await odswiezWatek();
+    return;
+  }
+  if (trybDopisek) {
+    const dop = inp.value.slice(DOPISEK_PREFIX.length).trim();
+    if (!dop) { inp.focus(); return; }
+    inp.value = '';
+    trybDopisku(false);
+    petlaKrok('retry', dop);
+    return;
+  }
+  const t = (inp.value || '').trim();
+  if (!t) return;
+  inp.value = ''; inp.disabled = true;
+  agentPracuje = true; const pop = czekaEtap; czekaEtap = 'pytanie';
+  await odswiezWatek();
+  const r = await api('/api/rozmowa/pytanie', {rozmowa: rozmowaId, tekst: t});
+  agentPracuje = false; czekaEtap = pop;
+  inp.disabled = false;
+  if (r.error) $('status').textContent = 'Nie udało się przygotować odpowiedzi: ' + r.error;
+  await odswiezWatek();
+}
+
+function malujPanel(rows) {
+  const p = $('panel');
+  if (!p || p.style.display === 'none') return;
+  const zrobione = rozmowaAdopt ? new Set(ETAPY)
+    : new Set(rows.filter(r => r.kind === 'etap').map(r => r.stage));
+  const final = rows.find(r => r.kind === 'final');
+  const kroki = ETAPY.map(s => {
+    const st = (agentPracuje && czekaEtap === s) ? 'active'
+      : zrobione.has(s) ? 'done' : '';
+    const zn = st === 'done' ? '✓' : st === 'active' ? '●' : '○';
+    return `<li class="${st}"><span class="zn">${zn}</span>${esc(ETAP_OPIS[s])}</li>`;
+  }).join('');
+  const plikSt = (final || rozmowaAdopt) ? 'done' : '';
+  const zal = final ? (final.zalaczniki || []).map(kartaZalacznika).join('') : '';
+  p.innerHTML = `
+    <h2>Postęp</h2>
+    <ul class="stopnie">${kroki}
+      <li class="${plikSt}"><span class="zn">${plikSt ? '✓' : '○'}</span>Pliki wynikowe</li></ul>
+    ${final && final.pass_ ? `<div style="margin:.6rem 0;color:var(--pewne);font-size:.82rem">✓ Wszystkie kontrole zaliczone</div>`
+      : final ? `<div class="warn">Część kontroli się nie powiodła — sprawdź szczegóły.</div>` : ''}
+    ${zal ? `<h2>Pliki</h2><div>${zal}</div>` : ''}
+    ${rozmowaJob ? `<h2>Dokument</h2>
+      <div style="font-size:.82rem">
+        <a href="#" onclick="openJob('${esc(rozmowaJob)}');document.getElementById('glowna').classList.remove('z-panelem');$('panel').style.display='none';return false">Szczegóły dokumentu (tabele, mapa, dowody)</a><br>
+        <a href="/file/${encodeURIComponent(rozmowaJob)}/document.md" target="_blank">document.md</a>
+      </div>` : ''}`;
+}
+
+// upuszczanie PDF w dowolnym miejscu okna
+window.addEventListener('dragover', e => {
+  e.preventDefault(); $('drop').style.display = 'flex';
+});
+$('drop').addEventListener('dragleave', () => $('drop').style.display = 'none');
+window.addEventListener('drop', e => {
+  e.preventDefault(); $('drop').style.display = 'none';
+  const f = e.dataTransfer.files && e.dataTransfer.files[0];
+  if (f && f.name.toLowerCase().endsWith('.pdf')) przyjmijPlik(f);
+});
+
+refresh();
+refreshRozmowy();
+firma();
+</script>

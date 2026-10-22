@@ -1,0 +1,9 @@
+=== FULL WIRED RUN 04:05 — chaptered: crew+werdykt+rozdzialy+media+podsumowania ===
+[32m[INFO] 2026-08-06 04:07:06,354 [RapidOCR] download_file.py:60: File exists and is valid: <python>\Lib\site-packages\rapidocr\models\ch_ppocr_mobile_v2.0_cls_mobile.onnx[0m
+[32m[INFO] 2026-08-06 04:07:06,354 [RapidOCR] main.py:63: Using <python>\Lib\site-packages\rapidocr\models\ch_ppocr_mobile_v2.0_cls_mobile.onnx[0m
+[32m[INFO] 2026-08-06 04:07:06,388 [RapidOCR] base.py:23: Using engine_name: onnxruntime[0m
+[32m[INFO] 2026-08-06 04:07:06,399 [RapidOCR] download_file.py:60: File exists and is valid: <python>\Lib\site-packages\rapidocr\models\PP-OCRv6_rec_small.onnx[0m
+[32m[INFO] 2026-08-06 04:07:06,399 [RapidOCR] main.py:63: Using <python>\Lib\site-packages\rapidocr\models\PP-OCRv6_rec_small.onnx[0m
+[media] 4 obrazow
+[podsumowania] 5 rozdz., 33 faktow
+[done] job=job-20260806-040518 checks_PASS=True outputs=3 verdict=OK 220s

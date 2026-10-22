@@ -1,0 +1,8 @@
+# Developer tools only (test-document generators, scan degradation, icons,
+# anonymisation of intake PDFs). Nothing here goes into the installer payload.
+# PyMuPDF (AGPL) stays here on purpose: it is used only to CREATE test PDFs
+# (insert_image, insert_text); the product reads PDFs through pypdfium2
+# (BSD/Apache), see app/pdfpages.py.
+pymupdf>=1.26
+augraphy>=8.2      # tools/make_arsenal.py, tools/degrade_scan.py (pulls numpy + opencv)
+pillow>=10         # tools/make_ikony.py, tools/make_stress_operat.py

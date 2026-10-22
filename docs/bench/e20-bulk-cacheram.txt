@@ -1,0 +1,16 @@
+=== E20 A: worker cache-ram 0 (shipping) 02:29 ===
+[wykaz] 18 pkt, uwagi: []
+[gates] grounding: w_dok=True zrodla=True | referee: False (zgodne 18, niezgodne 0, pominiete 18)
+[done] job=job-20260806-022924 checks_PASS=False outputs=3 verdict=DO_POPRAWY 140s
+=== E20 A2: routing fix + cache-ram 0 02:35 ===
+    for line in text.splitlines():
+                ^^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'splitlines'
+=== E20 A3: routing fix (tuple unpacked) + cache-ram 0 02:36 ===
+[wykaz] 36 pkt, uwagi: []
+[gates] grounding: w_dok=True zrodla=True | referee: True (zgodne 36, niezgodne 0, pominiete 0)
+[done] job=job-20260806-023621 checks_PASS=True outputs=3 verdict=OK 170s
+=== E20 B: worker cache-ram 512 02:39 ===
+[wykaz] 36 pkt, uwagi: []
+[gates] grounding: w_dok=True zrodla=True | referee: True (zgodne 36, niezgodne 0, pominiete 0)
+[done] job=job-20260806-023958 checks_PASS=True outputs=3 verdict=OK 173s

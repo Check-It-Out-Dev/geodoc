@@ -1,0 +1,31 @@
+{
+ "type": "object",
+ "properties": {
+  "propozycje": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "agent": {"type": "string"},
+     "zasady": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "typ": {"enum": ["pozytywna", "negatywna"]},
+        "tresc": {"type": "string"}
+       },
+       "required": ["typ", "tresc"],
+       "additionalProperties": false
+      }
+     },
+     "uzasadnienie": {"type": "string"}
+    },
+    "required": ["agent", "zasady", "uzasadnienie"],
+    "additionalProperties": false
+   }
+  }
+ },
+ "required": ["propozycje"],
+ "additionalProperties": false
+}

@@ -1,0 +1,25 @@
+__pycache__/
+jobs/
+contexts/
+*.gguf
+.env
+prompts/user/
+installer/python-embed/
+installer/llama-bin/
+installer/Output/
+augraphy_cache/
+src-tauri/target/
+Cargo.lock
+src-tauri/geodoc-tray.exe
+domain/
+installer/branding/_test/
+installer/branding/_podglad.png
+tools/bin/
+uploads/
+
+# per-machine model manifest and the runtime fetched by tools/fetch_runtime.py
+models.local.json
+/llama-bin/
+/models/
+# operator data created at runtime
+profiles/

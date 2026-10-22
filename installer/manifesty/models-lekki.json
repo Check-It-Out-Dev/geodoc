@@ -1,0 +1,22 @@
+{
+ "server": "llama-bin/b10155/llama-server.exe",
+ "models": {
+  "worker": {
+   "gguf": "models/Qwen3-30B-A3B-Instruct-2507-Q4_K_M.gguf",
+   "port": 7422,
+   "ctx": 16384,
+   "threads": 8,
+   "threads_batch": 24,
+   "extra_args": ["--cache-reuse", "256", "-ub", "1024",
+                  "--cache-ram", "0", "--no-kv-unified"]
+  },
+  "analityk": {
+   "gguf": "models/Qwen3-30B-A3B-Instruct-2507-Q4_K_M.gguf",
+   "port": 7423,
+   "ctx": 16384,
+   "threads": 8,
+   "threads_batch": 24,
+   "extra_args": ["--cache-ram", "0", "--no-kv-unified", "-ub", "1024"]
+  }
+ }
+}

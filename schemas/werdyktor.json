@@ -1,0 +1,23 @@
+{
+ "type": "object",
+ "properties": {
+  "werdykt": {"enum": ["OK", "DO_POPRAWY", "ODRZUC"]},
+  "zaufanie": {"enum": ["wysokie", "srednie", "niskie"]},
+  "problemy": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "pole": {"type": "string"},
+     "opis": {"type": "string"},
+     "strona": {"type": ["integer", "null"]}
+    },
+    "required": ["pole", "opis", "strona"],
+    "additionalProperties": false
+   }
+  },
+  "raport_md": {"type": "string"}
+ },
+ "required": ["werdykt", "zaufanie", "problemy", "raport_md"],
+ "additionalProperties": false
+}

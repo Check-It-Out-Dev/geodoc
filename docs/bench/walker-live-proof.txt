@@ -1,0 +1,9 @@
+=== LIVE WALKER on rz-e2e (chaptered, worker LLM) 03:28 ===
+hops: 5 wall: 38s
+ hop 1 okno [1, 6] -> start 6 '2. SZKICE I MAPY' wysoka 
+ hop 2 okno [7, 12] -> start 9 '3. WYKAZ WSPOLRZEDNYCH PUNKTOW GRANICZNYCH' wysoka 
+ hop 3 okno [10, 15] -> start 12 '4. PROTOKOLY GRANICZNE' wysoka 
+ hop 4 okno [13, 16] -> start 14 '5. DOKUMENTY KONCOWE' wysoka 
+ hop 5 okno [15, 16] -> start None '' niska EOF
+chapters: [(1, 3, 5, 'kod'), (2, 6, 8, 'walker'), (3, 9, 11, 'walker'), (4, 12, 13, 'walker'), (5, 14, 16, 'walker')]
+G11: True G12: True braki: []

@@ -1,0 +1,16 @@
+{
+ "type": "object",
+ "properties": {
+  "typ_dokumentu": {"enum": ["operat techniczny", "inny", "nieczytelny"]},
+  "cel_pracy": {"type": ["string", "null"]},
+  "ma_wykaz_granic": {"enum": [true, false, "niepewne"]},
+  "strony_wykazu_kandydaci": {"type": "array", "items": {"type": "integer"}},
+  "strony_sprawozdania_kandydaci": {"type": "array", "items": {"type": "integer"}},
+  "uklad_wspolrzednych": {"type": ["string", "null"]},
+  "uzasadnienie": {"type": "string"}
+ },
+ "required": ["typ_dokumentu", "cel_pracy", "ma_wykaz_granic",
+              "strony_wykazu_kandydaci", "strony_sprawozdania_kandydaci",
+              "uklad_wspolrzednych", "uzasadnienie"],
+ "additionalProperties": false
+}

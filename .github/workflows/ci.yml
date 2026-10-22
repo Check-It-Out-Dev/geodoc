@@ -1,0 +1,39 @@
+name: ci
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  lint-and-test:
+    # Windows runner on purpose: geodoc is a Windows desktop product, and the
+    # test harness imports start_geodoc.pyw (a .pyw has no import loader on
+    # Linux). CI must match the platform the product actually ships on.
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: install deps
+        run: |
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+          pip install ruff
+
+      # Serious-error floor (syntax errors, undefined names, bad asserts).
+      # Full-strictness ruff is a follow-up: 44 style findings to burn down.
+      - name: ruff lint (serious errors)
+        run: ruff check --select E9,F63,F7,F82 .
+
+      # No model on the runner: the harness stubs the model files itself
+      # when models.json points at files that do not exist (a fresh clone).
+      - name: core test harness (no LLM required)
+        env:
+          PYTHONUTF8: '1'
+        run: python tests/test_core.py

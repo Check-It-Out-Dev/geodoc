@@ -1,0 +1,12 @@
+{
+ "type": "object",
+ "properties": {
+  "nastepny_start": {"type": ["integer", "null"]},
+  "nastepny_tytul": {"type": ["string", "null"]},
+  "pewnosc": {"enum": ["wysoka", "niska"]},
+  "koniec_dokumentu": {"type": "boolean"}
+ },
+ "required": ["nastepny_start", "nastepny_tytul", "pewnosc",
+              "koniec_dokumentu"],
+ "additionalProperties": false
+}

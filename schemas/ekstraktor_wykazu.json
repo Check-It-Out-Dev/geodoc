@@ -1,0 +1,28 @@
+{
+ "type": "object",
+ "properties": {
+  "punkty": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "id": {"type": "string"},
+     "x": {"type": "number"},
+     "y": {"type": "number"},
+     "h": {"type": ["number", "null"]},
+     "zrd": {"type": ["string", "null"]},
+     "bpp": {"type": ["string", "null"]},
+     "stb": {"type": ["string", "null"]},
+     "rzg": {"type": ["string", "null"]},
+     "status": {"type": ["string", "null"]}
+    },
+    "required": ["id", "x", "y", "h", "zrd", "bpp", "stb", "rzg", "status"],
+    "additionalProperties": false
+   }
+  },
+  "strona": {"type": "integer"},
+  "uwagi": {"type": ["string", "null"]}
+ },
+ "required": ["punkty", "strona", "uwagi"],
+ "additionalProperties": false
+}

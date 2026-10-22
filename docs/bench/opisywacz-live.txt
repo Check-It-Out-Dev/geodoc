@@ -1,0 +1,19 @@
+=== OPISYWACZ live 04:02 — chaptered maps via OCR+30B ===
+[32m[INFO] 2026-08-06 04:02:45,990 [RapidOCR] base.py:23: Using engine_name: onnxruntime[0m
+[32m[INFO] 2026-08-06 04:02:46,062 [RapidOCR] download_file.py:60: File exists and is valid: <python>\Lib\site-packages\rapidocr\models\PP-OCRv6_det_small.onnx[0m
+[32m[INFO] 2026-08-06 04:02:46,062 [RapidOCR] main.py:63: Using <python>\Lib\site-packages\rapidocr\models\PP-OCRv6_det_small.onnx[0m
+[32m[INFO] 2026-08-06 04:02:46,102 [RapidOCR] base.py:23: Using engine_name: onnxruntime[0m
+[32m[INFO] 2026-08-06 04:02:46,103 [RapidOCR] download_file.py:60: File exists and is valid: <python>\Lib\site-packages\rapidocr\models\ch_ppocr_mobile_v2.0_cls_mobile.onnx[0m
+[32m[INFO] 2026-08-06 04:02:46,103 [RapidOCR] main.py:63: Using <python>\Lib\site-packages\rapidocr\models\ch_ppocr_mobile_v2.0_cls_mobile.onnx[0m
+[32m[INFO] 2026-08-06 04:02:46,136 [RapidOCR] base.py:23: Using engine_name: onnxruntime[0m
+[32m[INFO] 2026-08-06 04:02:46,146 [RapidOCR] download_file.py:60: File exists and is valid: <python>\Lib\site-packages\rapidocr\models\PP-OCRv6_rec_small.onnx[0m
+[32m[INFO] 2026-08-06 04:02:46,146 [RapidOCR] main.py:63: Using <python>\Lib\site-packages\rapidocr\models\PP-OCRv6_rec_small.onnx[0m
+s. 6 mapa | Na mapie przedstawiono szkic przebiegu granic dzielki 146301_1.0012.AR_3.152/4. Na rysunku
+   elementy: ['MAPA 1', 'szkicgranicdzialki', '146301_1.0012.AR_3.152/4', 'N', '50100 m'] ugruntowane: True
+s. 7 mapa | Na mapie przedstawiono szkic przebiegu granic dzialki. Na rysunku widoczna jest skala 100 
+   elementy: ['MAPA2szkicgranicdzialki 146301_1.0012.AR_3.152/4', 'N', '50 100 m'] ugruntowane: True
+s. 8 zdjecie | Na zdjęciu przedstawiono znak graniczny nr 152.4-01. Zdjęcie zostało wykonane jako ilustra
+   elementy: ['znak graniczny', 'nr 152.4-01', 'Fot 1', 'Fot.'] ugruntowane: False
+s. 8 zdjecie | obraz bez czytelnego tekstu
+   elementy: [] ugruntowane: True
+media: 4, wall 26s
